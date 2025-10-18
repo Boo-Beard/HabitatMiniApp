@@ -47,7 +47,7 @@
     object-fit: cover;
     z-index: -2;
     opacity: 0.4;
-    filter: brightness(0.8) contrast(1.2);
+    filter: brightness(1) contrast(0.9);
   }
   
   .overlay {
@@ -645,9 +645,6 @@
       <div class="stats-header">
         <div class="stats-title">
         </div>
-        <button class="refresh-btn" id="refreshStats">
-          <i class="fas fa-sync-alt"></i> Refresh
-        </button>
       </div>
       <div class="stats-grid">
         <div class="stat">
@@ -667,9 +664,12 @@
           <div class="stat-label">24h Change</div>
         </div>
       </div>
-      <div class="last-updated" id="lastUpdated">Last updated: -</div>
+      <div class="last-updated" id="lastUpdated">Last updated: -      <button class="refresh-btn" id="refreshStats">
+        <i class="fas fa-sync-alt"></i> Refresh
+      </button></div>
+
     </div>
-    
+
     <button class="contact-btn" id="contactBtn">
         <i class="fa-solid fa-envelope"></i> Contact Us
     </button>
@@ -706,7 +706,7 @@
     
     <div class="footer">
       <p>Powered by <span class="feature-highlight">Habitat Protocol
-        Version 1.0.2
+        Version 1.0.3 
       </span></p>
       <div class="social-links">
         <a href="https://x.com/HabitatProtocol"
