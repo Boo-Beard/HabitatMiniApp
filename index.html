@@ -8,7 +8,6 @@
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
 />
-
 <style>
   :root {
     --primary: #0EB466;
@@ -195,7 +194,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
-    margin-bottom: 8px;
+    margin-bottom: 12px;
   }
   
   .stat {
@@ -262,13 +261,67 @@
     100% { opacity: 1; }
   }
   
+  .action-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .action-btn {
+    background: transparent;
+    border: 1px solid rgba(14, 180, 102, 0.3);
+    color: var(--primary);
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    touch-action: manipulation;
+    text-decoration: none;
+    text-align: center;
+  }
+  
+  .action-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(14, 180, 102, 0.1), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .action-btn:hover::before {
+    left: 100%;
+  }
+  
+  .action-btn:hover, .action-btn:active {
+    background: rgba(14, 180, 102, 0.1);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+  
+  .action-btn i {
+    margin-right: 6px;
+    font-size: 1rem;
+  }
+   
   .contact-btn {
     background: transparent;
-    border: 2px solid var(--primary);
-    color: var(--primary);
-    padding: 14px 20px;
-    font-size: 1rem;
-    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: var(--text-muted);
+    padding: 12px 20px;
+    font-size: 0.9rem;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -276,7 +329,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     width: 100%;
-    font-weight: 600;
+    font-weight: 500;
     position: relative;
     overflow: hidden;
     backdrop-filter: blur(5px);
@@ -290,7 +343,7 @@
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(14, 180, 102, 0.2), transparent);
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
     transition: left 0.5s ease;
   }
   
@@ -299,15 +352,15 @@
   }
   
   .contact-btn:hover, .contact-btn:active {
-    background: var(--primary);
-    color: var(--bg-dark);
-    box-shadow: 0 0 20px rgba(14, 180, 102, 0.4);
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--text);
+    transform: translateY(-1px);
   }
   
   .contact-btn i {
     margin-right: 8px;
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
   
   .contact-section {
@@ -465,16 +518,17 @@
   .social-links {
     display: flex;
     justify-content: center;
-    gap: 12px;
+    gap: 10px;
     margin-top: 12px;
+    flex-wrap: wrap;
   }
   
   .social-link {
     color: var(--text-muted);
     font-size: 1.1rem;
     transition: all 0.3s ease;
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -535,6 +589,13 @@
     to { transform: translateX(0); opacity: 1; }
   }
   
+  .refresh-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+  }
+  
   .refresh-btn {
     background: rgba(14, 180, 102, 0.1);
     border: 1px solid rgba(14, 180, 102, 0.3);
@@ -560,7 +621,6 @@
     font-size: 0.65rem;
     color: var(--text-muted);
     text-align: right;
-    margin-top: 4px;
   }
   
   .pulse-once {
@@ -582,6 +642,13 @@
     font-size: 0.75rem;
   }
 
+  .version {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.7rem;
+    opacity: 0.7;
+  }
+
   /* Mobile-specific optimizations */
   @media (max-width: 380px) {
     body {
@@ -589,6 +656,11 @@
     }
     
     .stats-grid {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    
+    .action-buttons {
       grid-template-columns: 1fr;
       gap: 10px;
     }
@@ -614,6 +686,26 @@
       font-size: 0.75rem;
       padding: 6px 10px;
     }
+    
+    .refresh-container {
+      flex-direction: column;
+      gap: 8px;
+      align-items: stretch;
+    }
+    
+    .last-updated {
+      text-align: center;
+    }
+    
+    .social-links {
+      gap: 8px;
+    }
+    
+    .social-link {
+      width: 32px;
+      height: 32px;
+      font-size: 1rem;
+    }
   }
 
   @media (min-width: 500px) {
@@ -624,287 +716,293 @@
 </style>
 </head>
 <body>
-  <!-- Video Background -->
-  <video class="video-background" autoplay muted loop playsinline>
-    <source src="https://framerusercontent.com/assets/UreOLyZkP4VdWf5ix2VEYeEMms.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-  <div class="overlay"></div>
+    <!-- Video Background -->
+    <video class="video-background" autoplay muted loop playsinline>
+      <source src="https://framerusercontent.com/assets/UreOLyZkP4VdWf5ix2VEYeEMms.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="overlay"></div>
+    
+    <div class="container">
+      <header>
+        <div class="logo-container">
+          <img src="https://i.ibb.co/0pbP6s1J/habitat-logo.jpg" alt="Habitat Logo" class="logo">
+        </div>
+        <h1>Habitat Portal</h1>
+        <p class="subtitle">From the Sun to your wallet</p>
+        <p class="mission-text">Habitat transforms excess renewable energy into intelligent computing infrastructures</p>
+      </header>
+      
+      <div class="stats-card">
+        <div class="stats-header">
+          <div class="stats-title">
+            <i class="fas fa-chart-line"></i>
+            <span>Habitat</span>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <div class="stat">
+            <div class="stat-value pulse" id="price">Loading...</div>
+            <div class="stat-label">Current Price</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value pulse" id="mcap">Loading...</div>
+            <div class="stat-label">Market Cap</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="volume">-</div>
+            <div class="stat-label">24h Volume</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value" id="change">-</div>
+            <div class="stat-label">24h Change</div>
+          </div>
+        </div>
+        
+        <div class="refresh-container">
+          <div class="last-updated" id="lastUpdated">Last updated: -</div>
+          <button class="refresh-btn" id="refreshStats">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+        </div>
+      </div>
   
-  <div class="container">
-    <header>
-      <div class="logo-container">
-        <img src="https://i.ibb.co/0pbP6s1J/habitat-logo.jpg" alt="Habitat Logo" class="logo">
+      <div class="action-buttons">
+        <a href="https://docs.habitatprotocol.com/" class="action-btn" target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-book"></i> Docs
+        </a>
+        <a href="https://dexscreener.com/solana/2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE" class="action-btn" target="_blank" rel="noopener noreferrer">
+            <i class="fa-solid fa-chart-area"></i> Chart
+        </a>
       </div>
-      <h1>Habitat Portal</h1>
-      <p class="subtitle">From the Sun to your wallet</p>
-      <p class="mission-text">Habitat transforms excess renewable energy into intelligent computing infrastructures</p>
-    </header>
-    
-    <div class="stats-card">
-      <div class="stats-header">
-        <div class="stats-title">
-        </div>
-      </div>
-      <div class="stats-grid">
-        <div class="stat">
-          <div class="stat-value pulse" id="price">Loading...</div>
-          <div class="stat-label">Current Price</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value pulse" id="mcap">Loading...</div>
-          <div class="stat-label">Market Cap</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value" id="volume">-</div>
-          <div class="stat-label">24h Volume</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value" id="change">-</div>
-          <div class="stat-label">24h Change</div>
-        </div>
-      </div>
-      
-      <div class="last-updated" id="lastUpdated">Last updated: -</div>
-      <button class="refresh-btn" id="refreshStats">
-        <i class="fas fa-sync-alt"></i> Refresh
-      </button>
-    </div>
-
-    <button class="contact-btn" id="contactBtn">
-        <i class="fa-solid fa-envelope"></i> Contact Us
-    </button>
-    
-    <div class="contact-section" id="contactSection">
-      <div class="contact-header">
-        <i class="fas fa-headset"></i>
-        <h2>Get In Touch</h2>
-      </div>
-      
-      <div class="form-group">
-        <label for="topic">Topic</label>
-        <select id="topic">
-          <option value="General">General</option>
-          <option value="Partnership">Partnership</option>
-          <option value="Support">Support</option>
-          <option value="Solar Investor Solutions">Solar Investor Solutions</option>
-          <option value="Hardware Relocation">Hardware Relocation</option>
-          <option value="Network Operations">Network Operations</option>
-          <option value="Compute Buyer">Compute Buyer</option>
-          <option value="Enterprise Compute">Enterprise Compute</option>
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label for="message">Your Message</label>
-        <textarea id="message" placeholder="Have a project, question, or partnership in mind? Let us know.."></textarea>
-      </div>
-      
-      <button class="submit-btn" id="submit">
-        Send Message
-      </button>
-    </div>
-    
-    <div class="footer">
-      <p>Powered by <span class="feature-highlight">Habitat Protocol
-        Version 1.0.4
-      </span></p>
-      <div class="social-links">
-        <a href="https://x.com/HabitatProtocol"
-        class="social-link"
-        target="_blank"
-        rel="noopener noreferrer">
-        <i class="fa-brands fa-x-twitter"></i>
-     </a>
-     
-     <a href="https://t.co/FDpS2bxL5j"
-        class="social-link"
-        target="_blank"
-        rel="noopener noreferrer">
-        <i class="fab fa-discord"></i>
-     </a>
-     
-     <a href="https://t.co/SS67LbLmLk"
-        class="social-link"
-        target="_blank"
-        rel="noopener noreferrer">
-        <i class="fab fa-telegram"></i>
-     </a>
-     
-     <a href="https://www.habitatprotocol.com/"
-        class="social-link"
-        target="_blank"
-        rel="noopener noreferrer">
-        <i class="fa-solid fa-desktop"></i>
-     </a>
-      </div>
-    </div>
-  </div>
   
-  <div class="notification" id="notification">
-    <p>Your message has been sent successfully!</p>
-  </div>
-
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<script>
-const tg = window.Telegram.WebApp;
-tg.expand();
-
-const tokenAddress = "2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE";
-const BIRDEYE_KEY = "1761b82af37542d193a02366186ab7e7";
-
-// --- Habitat Live Stats ---
-async function loadHabitatStats() {
-  const priceEl  = document.getElementById('price');
-  const mcapEl   = document.getElementById('mcap');
-  const volEl    = document.getElementById('volume');
-  const changeEl = document.getElementById('change');
-  const lastUpdatedEl = document.getElementById('lastUpdated');
-
-  // Helper: abbreviate large numbers
-  function abbreviateNumber(num) {
-    if (num >= 1e9) return (num / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B';
-    if (num >= 1e6) return (num / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M';
-    if (num >= 1e3) return (num / 1e3).toFixed(2).replace(/\.?0+$/, '') + 'K';
-    return num.toLocaleString();
-  }
-
-  try {
-    const res = await fetch(
-      `https://public-api.birdeye.so/defi/token_overview?address=${tokenAddress}&ui_amount_mode=scaled`,
-      {
-        headers: {
-          'Accept': 'application/json',
-          'X-Chain': 'solana',
-          'X-API-KEY': BIRDEYE_KEY
+      <button class="contact-btn" id="contactBtn">
+          <i class="fa-solid fa-envelope"></i> Contact Us
+      </button>
+      
+      <div class="contact-section" id="contactSection">
+        <div class="contact-header">
+          <i class="fas fa-headset"></i>
+          <h2>Get In Touch</h2>
+        </div>
+        
+        <div class="form-group">
+          <label for="topic">Topic</label>
+          <select id="topic">
+            <option value="General">General</option>
+            <option value="Partnership">Partnership</option>
+            <option value="Support">Support</option>
+            <option value="Solar Investor Solutions">Solar Investor Solutions</option>
+            <option value="Hardware Relocation">Hardware Relocation</option>
+            <option value="Network Operations">Network Operations</option>
+            <option value="Compute Buyer">Compute Buyer</option>
+            <option value="Enterprise Compute">Enterprise Compute</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="message">Your Message</label>
+          <textarea id="message" placeholder="Have a project, question, or partnership in mind? Let us know.."></textarea>
+        </div>
+        
+        <button class="submit-btn" id="submit">
+          Send Message
+        </button>
+      </div>
+      
+      <div class="footer">
+        <p>Powered by <span class="feature-highlight">Habitat Protocol</span></p>
+        <span class="version">Version 1.1.5</span>
+        <div class="social-links">
+          <a href="https://x.com/HabitatProtocol" class="social-link" target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-x-twitter"></i>
+          </a>
+          <a href="https://www.linkedin.com/company/habitat-foundation" class="social-link" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-linkedin-in"></i>
+          </a>
+          <a href="https://t.co/FDpS2bxL5j" class="social-link" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-discord"></i>
+          </a>
+          <a href="https://t.co/SS67LbLmLk" class="social-link" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-telegram"></i>
+          </a>
+          <a href="https://www.habitatprotocol.com/" class="social-link" target="_blank" rel="noopener noreferrer">
+            <i class="fa-solid fa-desktop"></i>
+          </a>
+          <a href="https://medium.com/@habitatfoundation" class="social-link" target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-medium"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="notification" id="notification">
+      <p>Your message has been sent successfully!</p>
+    </div>
+  
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <script>
+  const tg = window.Telegram.WebApp;
+  tg.expand();
+  
+  const tokenAddress = "2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE";
+  const BIRDEYE_KEY = "1761b82af37542d193a02366186ab7e7";
+  
+  // --- Habitat Live Stats ---
+  async function loadHabitatStats() {
+    const priceEl  = document.getElementById('price');
+    const mcapEl   = document.getElementById('mcap');
+    const volEl    = document.getElementById('volume');
+    const changeEl = document.getElementById('change');
+    const lastUpdatedEl = document.getElementById('lastUpdated');
+  
+    // Helper: abbreviate large numbers
+    function abbreviateNumber(num) {
+      if (num >= 1e9) return (num / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B';
+      if (num >= 1e6) return (num / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M';
+      if (num >= 1e3) return (num / 1e3).toFixed(2).replace(/\.?0+$/, '') + 'K';
+      return num.toLocaleString();
+    }
+  
+    try {
+      const res = await fetch(
+        `https://public-api.birdeye.so/defi/token_overview?address=${tokenAddress}&ui_amount_mode=scaled`,
+        {
+          headers: {
+            'Accept': 'application/json',
+            'X-Chain': 'solana',
+            'X-API-KEY': BIRDEYE_KEY
+          }
         }
-      }
-    );
-
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    if (!json.success || !json.data) throw new Error('Bad payload');
-
-    const d = json.data;
-
-    // Format numbers
-    const price = `$${Number(d.price).toFixed(6).replace(/\.?0+$/, '')}`;
-    const mcap  = `$${abbreviateNumber(d.marketCap)}`;
-    const vol24 = `$${abbreviateNumber(d.v24hUSD)}`;
-    const ch24  = Number(d.priceChange24hPercent || 0);
-
-    // Remove loading pulse
-    priceEl.classList.remove('pulse');
-    mcapEl.classList.remove('pulse');
-
-    // Update DOM
-    priceEl.textContent  = price;
-    mcapEl.textContent   = mcap;
-    volEl.textContent    = vol24;
-    changeEl.textContent = `${ch24.toFixed(2)}%`;
-    changeEl.style.color = ch24 >= 0 ? '#0EB466' : '#ff4d4d';
-    
-    // Update last updated time
-    const now = new Date();
-    lastUpdatedEl.textContent = `Last updated: ${now.toLocaleTimeString()}`;
-
-  } catch (err) {
-    priceEl.textContent  = 'Error';
-    mcapEl.textContent   = 'Error';
-    volEl.textContent    = '—';
-    changeEl.textContent = '—';
-    console.error('Habitat stats fetch failed:', err);
+      );
+  
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      if (!json.success || !json.data) throw new Error('Bad payload');
+  
+      const d = json.data;
+  
+      // Format numbers
+      const price = `$${Number(d.price).toFixed(6).replace(/\.?0+$/, '')}`;
+      const mcap  = `$${abbreviateNumber(d.marketCap)}`;
+      const vol24 = `$${abbreviateNumber(d.v24hUSD)}`;
+      const ch24  = Number(d.priceChange24hPercent || 0);
+  
+      // Remove loading pulse
+      priceEl.classList.remove('pulse');
+      mcapEl.classList.remove('pulse');
+  
+      // Update DOM
+      priceEl.textContent  = price;
+      mcapEl.textContent   = mcap;
+      volEl.textContent    = vol24;
+      changeEl.textContent = `${ch24.toFixed(2)}%`;
+      changeEl.style.color = ch24 >= 0 ? '#0EB466' : '#ff4d4d';
+      
+      // Update last updated time
+      const now = new Date();
+      lastUpdatedEl.textContent = `Last updated: ${now.toLocaleTimeString()}`;
+  
+    } catch (err) {
+      priceEl.textContent  = 'Error';
+      mcapEl.textContent   = 'Error';
+      volEl.textContent    = '—';
+      changeEl.textContent = '—';
+      console.error('Habitat stats fetch failed:', err);
+    }
   }
-}
-
-// Initial + refresh
-loadHabitatStats();
-setInterval(loadHabitatStats, 60000);
-
-// Manual refresh button
-document.getElementById('refreshStats').addEventListener('click', () => {
-  const stats = document.querySelectorAll('.stat-value');
-  stats.forEach(stat => stat.classList.add('pulse-once'));
   
-  setTimeout(() => {
-    stats.forEach(stat => stat.classList.remove('pulse-once'));
-  }, 500);
   
+  // Initial + refresh
   loadHabitatStats();
-});
 
-// ---- Toggle Contact Form ----
-document.getElementById("contactBtn").addEventListener("click", () => {
-  const contactSection = document.getElementById("contactSection");
-  const contactBtn = document.getElementById("contactBtn");
+ // setInterval(loadHabitatStats, 60000);
   
-  if (contactSection.style.display === "block") {
-    contactSection.style.display = "none";
-    contactBtn.innerHTML = '<i class="fa-solid fa-envelope"></i> Contact Us';
-  } else {
-    contactSection.style.display = "block";
-    contactBtn.innerHTML = '<i class="fa-solid fa-envelope"></i> Close';
-    // Scroll to form for better UX
-    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-});
-
-// ---- Submit Form ----
-document.getElementById("submit").addEventListener("click", () => {
-  const topic = document.getElementById("topic").value;
-  const message = document.getElementById("message").value;
-  
-  if (!message.trim()) {
-    alert("Please enter a message");
-    return;
-  }
-  
-  const data = {
-    topic: topic,
-    message: message
-  };
-  
-  // Show notification
-  const notification = document.getElementById('notification');
-  notification.classList.add('show');
-  
-  // Simulate sending
-  setTimeout(() => {
-    tg.sendData(JSON.stringify(data));  // sends data to Flow XO
-    notification.querySelector('p').textContent = "Message sent successfully!";
+  // Manual refresh button
+  document.getElementById('refreshStats').addEventListener('click', () => {
+    const stats = document.querySelectorAll('.stat-value');
+    stats.forEach(stat => stat.classList.add('pulse-once'));
     
-    // Close after delay
     setTimeout(() => {
-      tg.close();
-    }, 1500);
-  }, 1000);
-});
+      stats.forEach(stat => stat.classList.remove('pulse-once'));
+    }, 500);
+    
+    loadHabitatStats();
 
-// Add smooth scrolling for better UX
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    document.querySelector(this.getAttribute('href')).scrollIntoView({
-      behavior: 'smooth'
+  });
+  
+  // ---- Toggle Contact Form ----
+  document.getElementById("contactBtn").addEventListener("click", () => {
+    const contactSection = document.getElementById("contactSection");
+    const contactBtn = document.getElementById("contactBtn");
+    
+    if (contactSection.style.display === "block") {
+      contactSection.style.display = "none";
+      contactBtn.innerHTML = '<i class="fa-solid fa-envelope"></i> Contact Us';
+    } else {
+      contactSection.style.display = "block";
+      contactBtn.innerHTML = '<i class="fa-solid fa-envelope"></i> Close';
+      // Scroll to form for better UX
+      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+  
+  // ---- Submit Form ----
+  document.getElementById("submit").addEventListener("click", () => {
+    const topic = document.getElementById("topic").value;
+    const message = document.getElementById("message").value;
+    
+    if (!message.trim()) {
+      alert("Please enter a message");
+      return;
+    }
+    
+    const data = {
+      topic: topic,
+      message: message
+    };
+    
+    // Show notification
+    const notification = document.getElementById('notification');
+    notification.classList.add('show');
+    
+    // Simulate sending
+    setTimeout(() => {
+      tg.sendData(JSON.stringify(data));  // sends data to Flow XO
+      notification.querySelector('p').textContent = "Message sent successfully!";
+      
+      // Close after delay
+      setTimeout(() => {
+        tg.close();
+      }, 1500);
+    }, 1000);
+  });
+  
+  // Add smooth scrolling for better UX
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
     });
   });
-});
-
-// Prevent zoom on double-tap for mobile
-document.addEventListener('touchstart', function(e) {
-  if (e.touches.length > 1) {
-    e.preventDefault();
-  }
-}, { passive: false });
-
-let lastTouchEnd = 0;
-document.addEventListener('touchend', function(e) {
-  const now = (new Date()).getTime();
-  if (now - lastTouchEnd <= 300) {
-    e.preventDefault();
-  }
-  lastTouchEnd = now;
-}, false);
-</script>
-</body>
-</html>
+  
+  // Prevent zoom on double-tap for mobile
+  document.addEventListener('touchstart', function(e) {
+    if (e.touches.length > 1) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+  
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', function(e) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+      e.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, false);
+  </script>
+  </body>
+  </html>
