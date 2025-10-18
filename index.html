@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Habitat TG Portal</title>
+<title>Habitat Hub</title>
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -428,6 +428,27 @@
     -webkit-appearance: none;
     touch-action: manipulation;
   }
+  input[type="text"], input[type="email"] {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(14, 180, 102, 0.1);
+  color: var(--text);
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+  -webkit-appearance: none;
+  touch-action: manipulation;
+}
+
+input[type="text"]:focus, input[type="email"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(14, 180, 102, 0.2);
+  background: rgba(14, 180, 102, 0.15);
+}
+
   
   /* Fix for dropdown options */
   select {
@@ -728,7 +749,7 @@
         <div class="logo-container">
           <img src="https://i.ibb.co/0pbP6s1J/habitat-logo.jpg" alt="Habitat Logo" class="logo">
         </div>
-        <h1>Habitat Portal</h1>
+        <h1>Habitat Hub</h1>
         <p class="subtitle">From the Sun to your wallet</p>
         <p class="mission-text">Habitat transforms excess renewable energy into intelligent computing infrastructures</p>
       </header>
@@ -785,7 +806,11 @@
           <i class="fas fa-headset"></i>
           <h2>Get In Touch</h2>
         </div>
-        
+        <div class="form-group">
+            <label for="name">Your Name</label>
+            <input type="text" id="name" placeholder="">
+          </div>
+          
         <div class="form-group">
           <label for="topic">Topic</label>
           <select id="topic">
@@ -799,20 +824,30 @@
             <option value="Enterprise Compute">Enterprise Compute</option>
           </select>
         </div>
-        
+      
+        <div class="form-group">
+          <label for="telegramId">Telegram ID</label>
+          <input type="text" id="telegramId" placeholder="@username">
+        </div>
+      
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="your@email.com">
+        </div>
+      
         <div class="form-group">
           <label for="message">Your Message</label>
           <textarea id="message" placeholder="Have a project, question, or partnership in mind? Let us know.."></textarea>
         </div>
-        
         <button class="submit-btn" id="submit">
-          Send Message
+          Send Form
         </button>
       </div>
       
+      
       <div class="footer">
         <p>Powered by <span class="feature-highlight">Habitat Protocol</span></p>
-        <span class="version">Version 1.1.5</span>
+        <span class="version">Version 1.1.6</span>
         <div class="social-links">
           <a href="https://x.com/HabitatProtocol" class="social-link" target="_blank" rel="noopener noreferrer">
             <i class="fa-brands fa-x-twitter"></i>
@@ -837,172 +872,189 @@
     </div>
     
     <div class="notification" id="notification">
-      <p>Your message has been sent successfully!</p>
+      <p>Your Form has been Submitted!
+        Somebody from the Habitat Protocol team will be in touch shortly.
+      </p>
     </div>
   
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-  <script>
-  const tg = window.Telegram.WebApp;
-  tg.expand();
-  
-  const tokenAddress = "2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE";
-  const BIRDEYE_KEY = "1761b82af37542d193a02366186ab7e7";
-  
-  // --- Habitat Live Stats ---
-  async function loadHabitatStats() {
-    const priceEl  = document.getElementById('price');
-    const mcapEl   = document.getElementById('mcap');
-    const volEl    = document.getElementById('volume');
-    const changeEl = document.getElementById('change');
-    const lastUpdatedEl = document.getElementById('lastUpdated');
-  
-    // Helper: abbreviate large numbers
-    function abbreviateNumber(num) {
-      if (num >= 1e9) return (num / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B';
-      if (num >= 1e6) return (num / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M';
-      if (num >= 1e3) return (num / 1e3).toFixed(2).replace(/\.?0+$/, '') + 'K';
-      return num.toLocaleString();
-    }
-  
-    try {
-      const res = await fetch(
-        `https://public-api.birdeye.so/defi/token_overview?address=${tokenAddress}&ui_amount_mode=scaled`,
-        {
-          headers: {
-            'Accept': 'application/json',
-            'X-Chain': 'solana',
-            'X-API-KEY': BIRDEYE_KEY
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+    
+    // --- Habitat Live Stats (unchanged) ---
+    async function loadHabitatStats() {
+      const tokenAddress = "2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE";
+      const BIRDEYE_KEY = "1761b82af37542d193a02366186ab7e7";
+      const priceEl  = document.getElementById('price');
+      const mcapEl   = document.getElementById('mcap');
+      const volEl    = document.getElementById('volume');
+      const changeEl = document.getElementById('change');
+      const lastUpdatedEl = document.getElementById('lastUpdated');
+    
+      function abbreviateNumber(num) {
+        if (num >= 1e9) return (num / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B';
+        if (num >= 1e6) return (num / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M';
+        if (num >= 1e3) return (num / 1e3).toFixed(2).replace(/\.?0+$/, '') + 'K';
+        return num.toLocaleString();
+      }
+    
+      try {
+        const res = await fetch(
+          `https://public-api.birdeye.so/defi/token_overview?address=${tokenAddress}&ui_amount_mode=scaled`,
+          {
+            headers: {
+              'Accept': 'application/json',
+              'X-Chain': 'solana',
+              'X-API-KEY': BIRDEYE_KEY
+            }
           }
-        }
-      );
-  
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const json = await res.json();
-      if (!json.success || !json.data) throw new Error('Bad payload');
-  
-      const d = json.data;
-  
-      // Format numbers
-      const price = `$${Number(d.price).toFixed(6).replace(/\.?0+$/, '')}`;
-      const mcap  = `$${abbreviateNumber(d.marketCap)}`;
-      const vol24 = `$${abbreviateNumber(d.v24hUSD)}`;
-      const ch24  = Number(d.priceChange24hPercent || 0);
-  
-      // Remove loading pulse
-      priceEl.classList.remove('pulse');
-      mcapEl.classList.remove('pulse');
-  
-      // Update DOM
-      priceEl.textContent  = price;
-      mcapEl.textContent   = mcap;
-      volEl.textContent    = vol24;
-      changeEl.textContent = `${ch24.toFixed(2)}%`;
-      changeEl.style.color = ch24 >= 0 ? '#0EB466' : '#ff4d4d';
-      
-      // Update last updated time
-      const now = new Date();
-      lastUpdatedEl.textContent = `Last updated: ${now.toLocaleTimeString()}`;
-  
-    } catch (err) {
-      priceEl.textContent  = 'Error';
-      mcapEl.textContent   = 'Error';
-      volEl.textContent    = '—';
-      changeEl.textContent = '—';
-      console.error('Habitat stats fetch failed:', err);
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        if (!json.success || !json.data) throw new Error('Bad payload');
+        const d = json.data;
+    
+        priceEl.textContent  = `$${Number(d.price).toFixed(6).replace(/\.?0+$/, '')}`;
+        mcapEl.textContent   = `$${abbreviateNumber(d.marketCap)}`;
+        volEl.textContent    = `$${abbreviateNumber(d.v24hUSD)}`;
+        const ch24 = Number(d.priceChange24hPercent || 0);
+        changeEl.textContent = `${ch24.toFixed(2)}%`;
+        changeEl.style.color = ch24 >= 0 ? '#0EB466' : '#ff4d4d';
+    
+        lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+      } catch (err) {
+        priceEl.textContent = mcapEl.textContent = "Error";
+        console.error(err);
+      }
     }
-  }
-  
-  
-  // Initial + refresh
-  loadHabitatStats();
-
- // setInterval(loadHabitatStats, 60000);
-  
-  // Manual refresh button
-  document.getElementById('refreshStats').addEventListener('click', () => {
-    const stats = document.querySelectorAll('.stat-value');
-    stats.forEach(stat => stat.classList.add('pulse-once'));
-    
-    setTimeout(() => {
-      stats.forEach(stat => stat.classList.remove('pulse-once'));
-    }, 500);
-    
     loadHabitatStats();
+    
+    document.getElementById('refreshStats').addEventListener('click', () => loadHabitatStats());
+    
+    // --- Toggle Contact Form ---
+    document.getElementById("contactBtn").addEventListener("click", () => {
+      const section = document.getElementById("contactSection");
+      const btn = document.getElementById("contactBtn");
+      if (section.style.display === "block") {
+        section.style.display = "none";
+        btn.innerHTML = '<i class="fa-solid fa-envelope"></i> Contact Us';
+      } else {
+        section.style.display = "block";
+        btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Close Form';
+        section.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    });
+    // --- Auto prefix '@' in Telegram field ---
+const telegramInput = document.getElementById("telegramId");
+telegramInput.addEventListener("input", () => {
+  if (!telegramInput.value.startsWith("@")) {
+    telegramInput.value = "@" + telegramInput.value.replace(/^@+/, "");
+  }
+});
 
-  });
-  
-  // ---- Toggle Contact Form ----
-  document.getElementById("contactBtn").addEventListener("click", () => {
-    const contactSection = document.getElementById("contactSection");
-    const contactBtn = document.getElementById("contactBtn");
-    
-    if (contactSection.style.display === "block") {
-      contactSection.style.display = "none";
-      contactBtn.innerHTML = '<i class="fa-solid fa-envelope"></i> Contact Us';
-    } else {
-      contactSection.style.display = "block";
-      contactBtn.innerHTML = '<i class="fa-solid fa-envelope"></i> Close';
-      // Scroll to form for better UX
-      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  });
-  
-  // ---- Submit Form ----
-  document.getElementById("submit").addEventListener("click", () => {
-    const topic = document.getElementById("topic").value;
-    const message = document.getElementById("message").value;
-    
-    if (!message.trim()) {
-      alert("Please enter a message");
-      return;
-    }
-    
-    const data = {
-      topic: topic,
-      message: message
-    };
-    
-    // Show notification
-    const notification = document.getElementById('notification');
+// --- Submit Form ---
+document.getElementById("submit").addEventListener("click", async () => {
+  const name = document.getElementById("name").value.trim();
+  const topic = document.getElementById("topic").value.trim();
+  const telegramId = document.getElementById("telegramId").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const message = document.getElementById("message").value.trim();
+  const notification = document.getElementById('notification');
+
+  // --- Validation ---
+  if (!name || !topic || !telegramId || !email || !message) {
+    notification.querySelector('p').innerHTML = "⚠️ Please complete all fields before submitting.";
     notification.classList.add('show');
+    setTimeout(() => notification.classList.remove('show'), 2500);
+    return;
+  }
+
+  if (!telegramId.startsWith("@") || telegramId.length < 4) {
+    notification.querySelector('p').innerHTML = "⚠️ Please enter a valid Telegram username (e.g., @HabitatUser).";
+    notification.classList.add('show');
+    setTimeout(() => notification.classList.remove('show'), 2500);
+    return;
+  }
+
+  if (!email.includes("@") || !email.includes(".")) {
+    notification.querySelector('p').innerHTML = "⚠️ Please enter a valid email address.";
+    notification.classList.add('show');
+    setTimeout(() => notification.classList.remove('show'), 2500);
+    return;
+  }
+
+  const data = { name, topic, telegramId, email, message };
+
+  try {
+    // Send to Flow XO
+    await fetch("https://flowxo.com/hooks/a/x2gm2j5y", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    // Forward to Telegram Group
+    const botToken = "8101249855:AAGgkNIccexUt50wBma0iLvANfYreKdT0d0";
+    const chatId = "-1001870244551";
+    const text = `📃 *New Form Submission*  
+
+*Name:* ${name}  
+
+*Topic:* ${topic}  
+
+*Message:*
+${message}  
+
+*Telegram:* ${telegramId}  
+*Email:* ${email}  
+
+_From the Habitat Hub_`;
+
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: text,
+        parse_mode: "Markdown"
+      })
+    });
+
+    notification.querySelector('p').innerHTML = "✅ Your form has been submitted!<br><br>Somebody from the Habitat team will be in touch shortly.";
+    notification.classList.add('show');
+    setTimeout(() => notification.classList.remove('show'), 2500);
+
+  } catch (error) {
+    console.error(error);
+    notification.querySelector('p').innerHTML = "⚠️ Error sending message. Please try again later.";
+    notification.classList.add('show');
+    setTimeout(() => notification.classList.remove('show'), 2500);
+  }
+});   
     
-    // Simulate sending
-    setTimeout(() => {
-      tg.sendData(JSON.stringify(data));  // sends data to Flow XO
-      notification.querySelector('p').textContent = "Message sent successfully!";
-      
-      // Close after delay
-      setTimeout(() => {
-        tg.close();
-      }, 1500);
-    }, 1000);
-  });
-  
-  // Add smooth scrolling for better UX
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-      e.preventDefault();
-      document.querySelector(this.getAttribute('href')).scrollIntoView({
-        behavior: 'smooth'
+    // Smooth scroll (minor UX)
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
       });
     });
-  });
-  
-  // Prevent zoom on double-tap for mobile
-  document.addEventListener('touchstart', function(e) {
-    if (e.touches.length > 1) {
-      e.preventDefault();
-    }
-  }, { passive: false });
-  
-  let lastTouchEnd = 0;
-  document.addEventListener('touchend', function(e) {
-    const now = (new Date()).getTime();
-    if (now - lastTouchEnd <= 300) {
-      e.preventDefault();
-    }
-    lastTouchEnd = now;
-  }, false);
-  </script>
+    
+    // Prevent double-tap zoom
+    document.addEventListener('touchstart', function(e) {
+      if (e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
+    
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', function(e) {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) e.preventDefault();
+      lastTouchEnd = now;
+    }, false);
+    </script>
+    
   </body>
   </html>
