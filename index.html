@@ -313,6 +313,21 @@
   gap: 12px;
   margin-bottom: 16px;
 }
+#priceStat .stat-value {
+  text-align: center;
+  position: relative;
+}
+
+#priceStat #priceTrend {
+  position: absolute;
+  right: 6px;
+  bottom: 2px;
+  width: 60px;
+  height: 16px;
+  opacity: 0.8;
+  pointer-events: none;
+}
+
 
 .action-buttons .row {
   display: flex;
@@ -683,6 +698,13 @@
   color: var(--primary);
   font-size: 1rem;
 }
+#priceTrend {
+  width: 80px;
+  height: 20px;
+  display: block;
+  margin: 4px auto 0;
+  opacity: 0.8;
+}
 
 .article-link:hover {
   background: rgba(14, 180, 102, 0.15);
@@ -920,11 +942,15 @@
           </div>
         </div>
         <div class="stats-grid">
-            <div class="stat">
-              <div class="stat-value" id="price">Loading...</div>
-              <div class="stat-label">Current Price</div>
-            </div>
-            <div class="stat">
+            <div class="stat" id="priceStat">
+                <div class="stat-value" style="position: relative;">
+                  <span id="price">Loading...</span>
+                  <canvas id="priceTrend" width="70" height="20"></canvas>
+                </div>
+                <div class="stat-label">Current Price</div>
+              </div>
+              
+              <div class="stat">
               <div class="stat-value" id="mcap">Loading...</div>
               <div class="stat-label">Market Cap</div>
             </div>
@@ -1077,7 +1103,7 @@
       
       <div class="footer">
         <p>Powered by <span class="feature-highlight">Habitat Protocol</span></p>
-        <span class="version">Version 1.2.0</span>
+        <span class="version">Version 1.2.1</span>
         <div class="social-links">
           <a href="https://x.com/HabitatProtocol" class="social-link" target="_blank" rel="noopener noreferrer">
             <i class="fa-brands fa-x-twitter"></i>
@@ -1158,6 +1184,41 @@ async function loadHabitatStats() {
 }
 
 priceEl.textContent = formatPrice(d.price);
+priceEl.textContent = formatPrice(d.price);
+
+// 💹 Draw inline sparkline
+const canvas = document.getElementById("priceTrend");
+const ctx = canvas.getContext("2d");
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+// Build mini-trend array from Birdeye history prices
+const points = [
+  d.history24hPrice, d.history12hPrice, d.history8hPrice,
+  d.history4hPrice, d.history2hPrice, d.history1hPrice, d.price
+].filter(p => p && !isNaN(p));
+
+if (points.length > 1) {
+  const min = Math.min(...points);
+  const max = Math.max(...points);
+  const scaleX = canvas.width / (points.length - 1);
+  const scaleY = canvas.height / (max - min);
+
+  ctx.beginPath();
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = d.priceChange24hPercent >= 0 ? "#0EB466" : "#ff4d4d";
+  ctx.shadowBlur = 4;
+  ctx.shadowColor = ctx.strokeStyle;
+
+  points.forEach((p, i) => {
+    const x = i * scaleX;
+    const y = canvas.height - (p - min) * scaleY;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+
+  ctx.stroke();
+}
+
+
     mcapEl.textContent   = `$${abbreviateNumber(d.marketCap)}`;
     volEl.textContent    = `$${abbreviateNumber(d.v24hUSD)}`;
 
