@@ -1216,6 +1216,17 @@ if (points.length > 1) {
   });
 
   ctx.stroke();
+  // 🎨 Gradient fill under line
+const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+gradient.addColorStop(0, d.priceChange24hPercent >= 0 ? "rgba(14,180,102,0.25)" : "rgba(255,77,77,0.25)");
+gradient.addColorStop(1, "rgba(0,0,0,0)");
+
+ctx.lineTo(canvas.width, canvas.height);
+ctx.lineTo(0, canvas.height);
+ctx.closePath();
+ctx.fillStyle = gradient;
+ctx.fill();
+
 }
 
 
