@@ -313,19 +313,24 @@
   gap: 12px;
   margin-bottom: 16px;
 }
-#priceStat .stat-value {
-  text-align: center;
+.price-stat {
   position: relative;
+  overflow: hidden;
 }
 
-#priceStat #priceTrend {
+#priceTrend {
   position: absolute;
-  right: 6px;
-  bottom: 2px;
-  width: 60px;
-  height: 16px;
-  opacity: 0.8;
-  pointer-events: none;
+  bottom: 8px;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  opacity: 0.25;
+  z-index: 0;
+}
+
+.price-stat .stat-value {
+  position: relative;
+  z-index: 1;
 }
 
 
@@ -698,13 +703,6 @@
   color: var(--primary);
   font-size: 1rem;
 }
-#priceTrend {
-  width: 80px;
-  height: 20px;
-  display: block;
-  margin: 4px auto 0;
-  opacity: 0.8;
-}
 
 .article-link:hover {
   background: rgba(14, 180, 102, 0.15);
@@ -942,11 +940,9 @@
           </div>
         </div>
         <div class="stats-grid">
-            <div class="stat" id="priceStat">
-                <div class="stat-value" style="position: relative;">
-                  <span id="price">Loading...</span>
-                  <canvas id="priceTrend" width="70" height="20"></canvas>
-                </div>
+            <div class="stat price-stat">
+                <canvas id="priceTrend"></canvas>
+                <div class="stat-value" id="price">Loading...</div>
                 <div class="stat-label">Current Price</div>
               </div>
               
@@ -1204,10 +1200,23 @@ if (points.length > 1) {
   const scaleY = canvas.height / (max - min);
 
   ctx.beginPath();
-  ctx.lineWidth = 1.5;
-  ctx.strokeStyle = d.priceChange24hPercent >= 0 ? "#0EB466" : "#ff4d4d";
-  ctx.shadowBlur = 4;
-  ctx.shadowColor = ctx.strokeStyle;
+ctx.lineWidth = 5;
+
+// Gradient glow (fades from transparent → strong → transparent)
+const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+if (d.priceChange24hPercent >= 0) {
+  gradient.addColorStop(0, "rgba(14,180,102,0)");
+  gradient.addColorStop(0.5, "rgba(14,180,102,1)");
+  gradient.addColorStop(1, "rgba(14,180,102,0)");
+} else {
+  gradient.addColorStop(0, "rgba(255,77,77,0)");
+  gradient.addColorStop(0.5, "rgba(255,77,77,1)");
+  gradient.addColorStop(1, "rgba(255,77,77,0)");
+}
+
+ctx.strokeStyle = gradient;
+ctx.shadowBlur = 8;
+ctx.shadowColor = d.priceChange24hPercent >= 0 ? "rgba(14,180,102,0.6)" : "rgba(255,77,77,0.6)";
 
   points.forEach((p, i) => {
     const x = i * scaleX;
@@ -1216,19 +1225,9 @@ if (points.length > 1) {
   });
 
   ctx.stroke();
-  // 🎨 Gradient fill under line
-const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-gradient.addColorStop(0, d.priceChange24hPercent >= 0 ? "rgba(14,180,102,0.25)" : "rgba(255,77,77,0.25)");
-gradient.addColorStop(1, "rgba(0,0,0,0)");
 
-ctx.lineTo(canvas.width, canvas.height);
-ctx.lineTo(0, canvas.height);
-ctx.closePath();
-ctx.fillStyle = gradient;
-ctx.fill();
 
 }
-
 
     mcapEl.textContent   = `$${abbreviateNumber(d.marketCap)}`;
     volEl.textContent    = `$${abbreviateNumber(d.v24hUSD)}`;
