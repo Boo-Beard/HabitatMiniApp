@@ -808,7 +808,7 @@ input[type="text"]:focus, input[type="email"]:focus {
         </div>
         <div class="form-group">
             <label for="name">Your Name</label>
-            <input type="text" id="name" placeholder="">
+            <input type="text" id="name" placeholder="Your Name">
           </div>
           
         <div class="form-group">
@@ -847,7 +847,7 @@ input[type="text"]:focus, input[type="email"]:focus {
       
       <div class="footer">
         <p>Powered by <span class="feature-highlight">Habitat Protocol</span></p>
-        <span class="version">Version 1.1.6</span>
+        <span class="version">Version 1.1.7</span>
         <div class="social-links">
           <a href="https://x.com/HabitatProtocol" class="social-link" target="_blank" rel="noopener noreferrer">
             <i class="fa-brands fa-x-twitter"></i>
@@ -1022,8 +1022,27 @@ _From the Habitat Hub_`;
     });
 
     notification.querySelector('p').innerHTML = "✅ Your form has been submitted!<br><br>Somebody from the Habitat team will be in touch shortly.";
-    notification.classList.add('show');
-    setTimeout(() => notification.classList.remove('show'), 2500);
+notification.classList.add('show');
+
+// Clear all form fields immediately
+document.getElementById("name").value = "";
+document.getElementById("topic").value = "General";
+document.getElementById("telegramId").value = "";
+document.getElementById("email").value = "";
+document.getElementById("message").value = "";
+
+// Close form and reset button smoothly
+setTimeout(() => {
+  notification.classList.remove('show');
+  const section = document.getElementById("contactSection");
+  const btn = document.getElementById("contactBtn");
+  section.style.display = "none";
+  btn.innerHTML = '<i class="fa-solid fa-envelope"></i> Contact Us';
+
+  // Optional UX polish — scroll back to top smoothly
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}, 1500);
+
 
   } catch (error) {
     console.error(error);
