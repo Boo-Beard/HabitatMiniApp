@@ -801,11 +801,12 @@
   align-items: center;
   gap: 4px;
   flex-shrink: 0;
+  align-self: self-end;
 }
 
 .refresh-container .last-updated {
   flex: 1;
-  text-align: right;
+  text-align: left;
   font-size: 0.65rem;
   color: var(--text-muted);
 }
@@ -885,7 +886,29 @@
       font-size: 0.75rem;
       padding: 6px 10px;
     }
-    
+    .sol-price-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(14, 180, 102, 0.1);
+  border: 1px solid rgba(14, 180, 102, 0.3);
+  color: var(--primary);
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  backdrop-filter: blur(6px);
+}
+
+.sol-price-badge .sol-icon {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  background: var(--primary);
+  -webkit-mask: url('https://unpkg.com/simple-icons/icons/solana.svg') no-repeat center / contain;
+          mask: url('https://unpkg.com/simple-icons/icons/solana.svg') no-repeat center / contain;
+}
+
     .refresh-container {
       flex-direction: column;
       gap: 8px;
@@ -906,6 +929,34 @@
       font-size: 1rem;
     }
   }
+  .copy-ca-btn {
+  margin-left: 8px; /* spacing from Habitat */
+  padding: 4px 8px; /* smaller overall size */
+  font-size: 0.75rem; /* slightly smaller text */
+  border-radius: 5px;
+  background: rgba(14, 180, 102, 0.08);
+  border: 1px solid rgba(14, 180, 102, 0.25);
+}
+
+.copy-ca-btn i {
+  font-size: 0.8rem; /* smaller icon */
+  margin-right: 4px; /* small gap from text */
+}
+
+.copy-ca-btn:hover {
+  background: rgba(14, 180, 102, 0.15);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+
+
+.stats-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
 
   @media (min-width: 500px) {
     .container {
@@ -937,25 +988,39 @@
           <div class="stats-title">
             <i class="fas fa-chart-line"></i>
             <span>Habitat</span>
+            <button class="copy-ca-btn" id="copyCA" title="Copy Contract Address">
+                <i class="fa-regular fa-copy"></i>
+              </button>
+          </div>
+      
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <div class="sol-price-badge">
+              <span class="sol-icon"></span>
+              <span id="solPrice">—</span>
+            </div>
+
           </div>
         </div>
+          
+          
         <div class="stats-grid">
+          
             <div class="stat price-stat">
-                <canvas id="priceTrend"></canvas>
-                <div class="stat-value" id="price">Loading...</div>
-                <div class="stat-label">Current Price</div>
-              </div>
-              
-              <div class="stat">
+              <canvas id="priceTrend"></canvas>
+              <div class="stat-value" id="price">Loading...</div>
+              <div class="stat-label">Current Price</div>
+            </div>
+          
+            <div class="stat">
               <div class="stat-value" id="mcap">Loading...</div>
               <div class="stat-label">Market Cap</div>
             </div>
             <div class="stat">
-              <div class="stat-value" id="volume">-</div>
+              <div class="stat-value" id="volume">—</div>
               <div class="stat-label">24h Volume</div>
             </div>
             <div class="stat">
-              <div class="stat-value" id="change">-</div>
+              <div class="stat-value" id="change">—</div>
               <div class="stat-label">24h Change</div>
             </div>
             <div class="stat">
@@ -963,22 +1028,17 @@
               <div class="stat-label">Total Holders</div>
             </div>
             <div class="stat">
-                <div class="stat-value">
-                  <a href="https://solscan.io/token/2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE"
-                     target="_blank" rel="noopener noreferrer"
-                     style="color: var(--primary); text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px;">
-                     <span class="sol-icon" aria-hidden="true"></span>
-                     <span>Solana <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem;opacity:0.7;"></i></span>
-
-                  </a>
-                </div>
-                <div class="stat-label">Chain</div>
+              <div class="stat-value">
+                <a href="https://solscan.io/token/2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE"
+                   target="_blank" rel="noopener noreferrer"
+                   style="color:var(--primary);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">
+                  <span class="sol-icon" aria-hidden="true"></span>
+                  <span>Solana <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem;opacity:0.7;"></i></span>
+                </a>
               </div>
-              
-              
-              
-          
-        
+              <div class="stat-label">Chain</div>
+            </div>
+          </div>
         <div class="refresh-container">
           <div class="last-updated" id="lastUpdated">Last updated: -</div>
           <button class="refresh-btn" id="refreshStats">
@@ -1139,6 +1199,7 @@ async function loadHabitatStats() {
   const tokenAddress = "2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE";
   const BIRDEYE_KEY = "1761b82af37542d193a02366186ab7e7";
 
+  const solPriceEl = document.getElementById('solPrice');
   const priceEl  = document.getElementById('price');
   const mcapEl   = document.getElementById('mcap');
   const volEl    = document.getElementById('volume');
@@ -1165,22 +1226,83 @@ async function loadHabitatStats() {
       }
     );
 
+    // 🌞 Fetch Solana price
+try {
+  const solRes = await fetch(
+    `https://public-api.birdeye.so/defi/token_overview?address=So11111111111111111111111111111111111111112`,
+    {
+      headers: {
+        'Accept': 'application/json',
+        'X-Chain': 'solana',
+        'X-API-KEY': BIRDEYE_KEY
+      }
+    }
+  );
+  if (solRes.ok) {
+    const solJson = await solRes.json();
+    const sol = solJson.data;
+    solPriceEl.textContent = `$${Number(sol.price).toFixed(2)}`;
+  }
+} catch (e) {
+  solPriceEl.textContent = 'Error';
+}
+
+
+
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     if (!json.success || !json.data) throw new Error('Bad payload');
 
     const d = json.data;
 
-    // 💰 Core stats
-    function formatPrice(p) {
+// 💰 Core stats
+function formatPrice(p) {
   const price = Number(p);
   if (price >= 1) return `$${price.toFixed(2).replace(/\.?0+$/, '')}`;
   if (price >= 0.01) return `$${price.toFixed(3).replace(/\.?0+$/, '')}`;
   return `$${price.toFixed(4).replace(/\.?0+$/, '')}`;
 }
 
-priceEl.textContent = formatPrice(d.price);
-priceEl.textContent = formatPrice(d.price);
+// Compute 24h change once
+const ch24 = Number(d.priceChange24hPercent || 0);
+const arrow = ch24 >= 0 ? "▲" : "▼";
+const arrowColor = ch24 >= 0 ? "#0EB466" : "#ff4d4d";
+
+// 💵 Price + arrow
+priceEl.innerHTML = `
+  ${formatPrice(d.price)} 
+  <span style="color:${arrowColor}; font-size:0.8rem; margin-left:4px;">${arrow}</span>
+`;
+
+// 💹 24h % Change
+changeEl.textContent = `${ch24.toFixed(2)}%`;
+changeEl.style.color = arrowColor;
+// --- Copy Contract Address Button ---
+const copyBtn = document.getElementById('copyCA');
+copyBtn.addEventListener('click', async () => {
+  const contractAddress = "2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE";
+  const notification = document.getElementById('notification');
+  try {
+    await navigator.clipboard.writeText(contractAddress);
+
+    // ✅ success icon feedback
+    copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> CA Copied';
+    copyBtn.style.color = '#0EB466';
+
+    setTimeout(() => {
+      notification.classList.remove('show');
+      copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i>';
+      copyBtn.style.color = 'var(--primary)';
+    }, 1800);
+  } catch (err) {
+    console.error('Clipboard failed:', err);
+    notification.querySelector('p').innerHTML = "⚠️ Failed to copy address.";
+    notification.classList.add('show');
+    setTimeout(() => notification.classList.remove('show'), 1800);
+  }
+});
+
+
 
 // 💹 Draw inline sparkline
 const canvas = document.getElementById("priceTrend");
@@ -1233,7 +1355,6 @@ ctx.shadowColor = d.priceChange24hPercent >= 0 ? "rgba(14,180,102,0.6)" : "rgba(
     volEl.textContent    = `$${abbreviateNumber(d.v24hUSD)}`;
 
     // 📉 24h change
-    const ch24 = Number(d.priceChange24hPercent || 0);
     changeEl.textContent = `${ch24.toFixed(2)}%`;
     changeEl.style.color = ch24 >= 0 ? '#0EB466' : '#ff4d4d';
 
@@ -1252,9 +1373,15 @@ ctx.shadowColor = d.priceChange24hPercent >= 0 ? "rgba(14,180,102,0.6)" : "rgba(
 loadHabitatStats();
 
 // Refresh button listener
-document.getElementById('refreshStats').addEventListener('click', () => {
-  loadHabitatStats();
+const refreshBtn = document.getElementById('refreshStats');
+refreshBtn.addEventListener('click', async () => {
+  refreshBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Refreshing...`;
+  await loadHabitatStats();
+  setTimeout(() => {
+    refreshBtn.innerHTML = `<i class="fas fa-sync-alt"></i> Refresh`;
+  }, 500);
 });
+
 
     
     // --- Toggle Contact Form ---
