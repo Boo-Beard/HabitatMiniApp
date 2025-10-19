@@ -1243,6 +1243,7 @@ try {
     const json = await res.json();
     if (!json.success || !json.data) throw new Error('Bad payload');
 
+    
     const d = json.data;
 
 // 💰 Core stats
