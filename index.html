@@ -1224,7 +1224,8 @@ async function loadHabitatStats() {
   }
 
   try {
-const res = await fetch(`/api/birdeye?token=${tokenAddress}`);
+const res = await fetch(`https://dock-habitat.vercel.app/api/birdeye?token=${tokenAddress}`);
+
 
 
     // 🌞 Fetch Solana price
