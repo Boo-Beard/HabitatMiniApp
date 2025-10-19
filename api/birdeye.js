@@ -1,5 +1,14 @@
-// /api/birdeye.js
 export default async function handler(req, res) {
+  // --- Handle CORS ---
+  res.setHeader('Access-Control-Allow-Origin', 'https://www.tokendock.io');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') {
+    // Handle preflight requests quickly
+    return res.status(200).end();
+  }
+
   const { token } = req.query;
   if (!token) {
     return res.status(400).json({ success: false, message: "Missing token address" });
