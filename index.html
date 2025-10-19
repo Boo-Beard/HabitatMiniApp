@@ -1230,16 +1230,7 @@ const res = await fetch(`https://dock-habitat.vercel.app/api/birdeye?token=${tok
 
     // 🌞 Fetch Solana price
 try {
-  const solRes = await fetch(
-    `https://public-api.birdeye.so/defi/token_overview?address=So11111111111111111111111111111111111111112`,
-    {
-      headers: {
-        'Accept': 'application/json',
-        'X-Chain': 'solana',
-        'X-API-KEY': BIRDEYE_KEY
-      }
-    }
-  );
+  const solRes = await fetch(`https://dock-habitat.vercel.app/api/birdeye?token=sol`);
   if (solRes.ok) {
     const solJson = await solRes.json();
     const sol = solJson.data;
@@ -1248,9 +1239,6 @@ try {
 } catch (e) {
   solPriceEl.textContent = 'Error';
 }
-
-
-
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const json = await res.json();
     if (!json.success || !json.data) throw new Error('Bad payload');
