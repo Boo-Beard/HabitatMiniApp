@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Habitat Hub</title>
+<title>Habitat Dock</title>
 <link
   rel="stylesheet"
   href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -978,8 +978,8 @@
         <div class="logo-container">
           <img src="https://i.ibb.co/0pbP6s1J/habitat-logo.jpg" alt="Habitat Logo" class="logo">
         </div>
-        <h1>Habitat Hub</h1>
-        <p class="subtitle">All Things Habitat, in One Hub</p>
+        <h1>Habitat Dock</h1>
+        <p class="subtitle">All Things Habitat, in One Place</p>
         <p class="mission-text">Habitat transforms excess renewable energy into intelligent computing infrastructures</p>
       </header>
       
@@ -1158,8 +1158,17 @@
         </div>
       
       <div class="footer">
-        <p>Powered by <span class="feature-highlight">Habitat Protocol</span></p>
-        <span class="version">Version 1.2.1</span>
+<p style="color: var(--text-muted); font-size: 0.9rem;">
+  Powered by 
+  <a href="https://www.tokendock.io/"
+     target="_blank"
+     rel="noopener noreferrer"
+     class="feature-highlight"
+     style="color: var(--primary); text-decoration: none;">
+     <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem;opacity:0.7;"></i></span> Token Dock
+  </a>
+</p>
+       <span class="version">Version 1.2.1</span>
         <div class="social-links">
           <a href="https://x.com/HabitatProtocol" class="social-link" target="_blank" rel="noopener noreferrer">
             <i class="fa-brands fa-x-twitter"></i>
@@ -1215,16 +1224,8 @@ async function loadHabitatStats() {
   }
 
   try {
-    const res = await fetch(
-      `https://public-api.birdeye.so/defi/token_overview?address=${tokenAddress}&ui_amount_mode=scaled`,
-      {
-        headers: {
-          'Accept': 'application/json',
-          'X-Chain': 'solana',
-          'X-API-KEY': BIRDEYE_KEY
-        }
-      }
-    );
+const res = await fetch(`/api/birdeye?token=${tokenAddress}`);
+
 
     // 🌞 Fetch Solana price
 try {
