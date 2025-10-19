@@ -749,141 +749,163 @@
 </style>
 </head>
 <body>
-    <video class="video-background" autoplay muted loop playsinline>
-      <source src="https://framerusercontent.com/assets/UreOLyZkP4VdWf5ix2VEYeEMms.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"></div>
-    
-    <div class="container">
-      <header>
-        <div class="logo-container">
-          <img src="https://i.ibb.co/0pbP6s1J/habitat-logo.jpg" alt="Habitat Logo" class="logo">
+  <!-- Video Background (auto-disabled for prefers-reduced-motion users) -->
+  <video class="video-background" autoplay muted loop playsinline aria-hidden="true">
+    <source src="https://framerusercontent.com/assets/UreOLyZkP4VdWf5ix2VEYeEMms.mp4" type="video/mp4">
+  </video>
+  <div class="overlay"></div>
+
+  <main class="container" role="main">
+    <header>
+      <div class="logo-container">
+        <img src="https://i.ibb.co/0pbP6s1J/habitat-logo.jpg"
+             alt="Habitat Protocol logo"
+             class="logo"
+             width="70"
+             height="70" />
+      </div>
+      <h1>Habitat Dock</h1>
+      <p class="subtitle">All Things Habitat, in One Place</p>
+      <p class="mission-text">Habitat transforms excess renewable energy into intelligent computing infrastructures</p>
+    </header>
+
+    <!-- Stats Section -->
+    <section class="stats-card" aria-labelledby="stats-title">
+      <div class="stats-header">
+        <h2 id="stats-title" class="stats-title">
+          <i class="fas fa-chart-line" aria-hidden="true"></i> Habitat
+        </h2>
+        <div class="sol-price-badge" aria-label="Solana price">
+          <span class="sol-icon" aria-hidden="true"></span>
+          <span id="solPrice">—</span>
         </div>
-        <h1>Habitat Dock</h1>
-        <p class="subtitle">All Things Habitat, in One Place</p>
-        <p class="mission-text">Habitat transforms excess renewable energy into intelligent computing infrastructures</p>
-      </header>
-      
-      <div class="stats-card">
-        <div class="stats-header">
-          <div class="stats-title">
-            <i class="fas fa-chart-line"></i>
-            <span>Habitat</span>
-            <button class="copy-ca-btn" id="copyCA" title="Copy Contract Address">
-              <i class="fa-regular fa-copy"></i>
-            </button>
-          </div>
-          <div class="sol-price-badge">
-            <span class="sol-icon"></span>
-            <span id="solPrice">—</span>
-          </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat price-stat">
+          <canvas id="priceTrend" aria-hidden="true" width="300" height="50"></canvas>
+          <div class="stat-value" id="price">Loading...</div>
+          <div class="stat-label">Current Price</div>
         </div>
-          
-        <div class="stats-grid">
-          <div class="stat price-stat">
-            <canvas id="priceTrend"></canvas>
-            <div class="stat-value" id="price">Loading...</div>
-            <div class="stat-label">Current Price</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value" id="mcap">Loading...</div>
-            <div class="stat-label">Market Cap</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value" id="volume">—</div>
-            <div class="stat-label">24h Volume</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value" id="change">—</div>
-            <div class="stat-label">24h Change</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value" id="holderCount">Loading...</div>
-            <div class="stat-label">Total Holders</div>
-          </div>
-          <div class="stat">
-            <div class="stat-value">
-              <a href="https://solscan.io/token/2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE"
-                 target="_blank" rel="noopener noreferrer"
-                 style="color:var(--primary);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">
-                <span class="sol-icon" aria-hidden="true"></span>
-                <span>Solana <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem;opacity:0.7;"></i></span>
-              </a>
-            </div>
-            <div class="stat-label">Chain</div>
-          </div>
+
+        <div class="stat">
+          <div class="stat-value" id="mcap">Loading...</div>
+          <div class="stat-label">Market Cap</div>
         </div>
-        <div class="refresh-container">
-          <div class="last-updated" id="lastUpdated">Last updated: -</div>
-          <button class="refresh-btn" id="refreshStats">
+
+        <div class="stat">
+          <div class="stat-value" id="volume">—</div>
+          <div class="stat-label">24h Volume</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-value" id="change">—</div>
+          <div class="stat-label">24h Change</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-value" id="holderCount">Loading...</div>
+          <div class="stat-label">Total Holders</div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-value">
+            <a href="https://solscan.io/token/2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE"
+               style="color:var(--primary);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:6px;">
+              <span class="sol-icon" aria-hidden="true"></span>
+              <span>Solana <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem;opacity:0.7;"></i></span>
+            </a>
+          </div>
+          <div class="stat-label">Chain</div>
+        </div>
+      </div>
+
+      <div class="refresh-container">
+        <div class="last-updated" id="lastUpdated">Last updated: -</div>
+        <div class="controls">
+          <button class="copy-ca-btn" id="copyCA" title="Copy Contract Address" type="button">
+            <i class="fa-regular fa-copy" aria-hidden="true"></i>
+            <span class="visually-hidden">Copy contract address</span>
+          </button>
+          <button class="refresh-btn" id="refreshStats" type="button">
             <i class="fas fa-sync-alt"></i> Refresh
           </button>
         </div>
       </div>
+    </section>
 
-      <a href="https://raydium.io/swap/?inputMint=2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE" class="trade-btn" target="_blank" rel="noopener noreferrer">
-        <i class="fas fa-exchange-alt"></i> Trade Habitat
-      </a>
-  
-      <div class="action-buttons">
-        <div class="row">
-          <a href="https://docs.habitatprotocol.com/" class="action-btn" target="_blank">
-            <i class="fas fa-book"></i> Docs
-          </a>
-          <a href="https://dexscreener.com/solana/2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE" class="action-btn" target="_blank">
-            <i class="fa-solid fa-chart-area"></i> Chart
-          </a>
-        </div>
-        <div class="row center">
-          <button class="action-btn" id="articlesBtn">
-            <i class="fa-solid fa-newspaper"></i> Articles
-          </button>
+    <!-- Trade Button -->
+    <a href="https://raydium.io/swap/?inputMint=2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE"
+       class="trade-btn"
+       target="_blank" rel="noopener noreferrer">
+      <i class="fas fa-exchange-alt"></i> Trade Habitat
+    </a>
+
+    <!-- Action Buttons -->
+    <nav class="action-buttons" aria-label="Quick Links">
+      <div class="row">
+        <a href="https://docs.habitatprotocol.com/" class="action-btn" target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-book"></i> Docs
+        </a>
+        <a href="https://dexscreener.com/solana/2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE"
+           class="action-btn" target="_blank" rel="noopener noreferrer">
+          <i class="fa-solid fa-chart-area"></i> Chart
+        </a>
+      </div>
+      <div class="row center">
+        <button class="action-btn" id="articlesBtn" type="button">
+          <i class="fa-solid fa-newspaper"></i> Articles
+        </button>
+      </div>
+    </nav>
+
+    <!-- Articles -->
+    <section class="articles-section" id="articlesSection" hidden>
+      <div class="stats-header">
+        <div class="stats-title">
+          <i class="fa-solid fa-newspaper"></i>
+          <span>Latest Articles</span>
         </div>
       </div>
-            
-      <div class="articles-section" id="articlesSection">
-        <div class="stats-header">
-          <div class="stats-title">
-            <i class="fa-solid fa-newspaper"></i>
-            <span>Latest Articles</span>
-          </div>
-        </div>
-        <div class="articles-list">
-          <a href="https://x.com/Pirateshredder/status/1978501388947574968" target="_blank" rel="noopener noreferrer" class="article-link">
-            <i class="fa-brands fa-x-twitter"></i>
-            <span>Engineering curtailment into compute</span>
-          </a>
-          <a href="https://medium.com/@habitatfoundation/from-sunlight-to-intelligence-the-habitat-vision-eedca170fcce" target="_blank" rel="noopener noreferrer" class="article-link">
-            <i class="fa-brands fa-medium"></i>
-            <span>From Sunlight to Intelligence — The Habitat Vision</span>
-          </a>
-          <a href="https://x.com/Pirateshredder/status/1970210372285276662" target="_blank" rel="noopener noreferrer" class="article-link">
-            <i class="fa-brands fa-x-twitter"></i>
-            <span>Turning stranded solar energy & modular data centers into profitable GPU hours</span>
-          </a>
-          <a href="https://x.com/Pirateshredder/status/1967994549915291815" target="_blank" rel="noopener noreferrer" class="article-link">
-            <i class="fa-brands fa-x-twitter"></i>
-            <span>Infrastructure, Rebuilt: Why Web3 Needs Its Own Industrial Base</span>
-          </a>
-        </div>
+      <div class="articles-list">
+        <a href="https://x.com/Pirateshredder/status/1978501388947574968"
+           class="article-link" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-x-twitter"></i> Engineering curtailment into compute
+        </a>
+        <a href="https://medium.com/@habitatfoundation/from-sunlight-to-intelligence-the-habitat-vision-eedca170fcce"
+           class="article-link" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-medium"></i> From Sunlight to Intelligence — The Habitat Vision
+        </a>
+        <a href="https://x.com/Pirateshredder/status/1970210372285276662"
+           class="article-link" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-x-twitter"></i> Turning stranded solar energy & modular data centers into profitable GPU hours
+        </a>
+        <a href="https://x.com/Pirateshredder/status/1967994549915291815"
+           class="article-link" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-x-twitter"></i> Infrastructure, Rebuilt: Why Web3 Needs Its Own Industrial Base
+        </a>
       </div>
-  
-      <button class="contact-btn" id="contactBtn">
-        <i class="fa-solid fa-envelope"></i> Contact Us
-      </button>
-      
-      <div class="contact-section" id="contactSection">
-        <div class="contact-header">
-          <i class="fas fa-headset"></i>
-          <h2>Get In Touch</h2>
-        </div>
+    </section>
+
+    <!-- Contact Button -->
+    <button class="contact-btn" id="contactBtn" type="button">
+      <i class="fa-solid fa-envelope"></i> Contact Us
+    </button>
+
+    <!-- Contact Form -->
+    <section class="contact-section" id="contactSection" hidden>
+      <div class="contact-header">
+        <i class="fas fa-headset"></i>
+        <h2>Get In Touch</h2>
+      </div>
+      <form id="contactForm" novalidate>
         <div class="form-group">
           <label for="name">Your Name</label>
-          <input type="text" id="name" placeholder="Name">
+          <input type="text" id="name" placeholder="Name" required>
         </div>
         <div class="form-group">
           <label for="topic">Topic</label>
-          <select id="topic">
+          <select id="topic" required>
             <option value="General">General</option>
             <option value="Partnership">Partnership</option>
             <option value="Solar Investor Solutions">Solar Investor Solutions</option>
@@ -895,196 +917,130 @@
         </div>
         <div class="form-group">
           <label for="telegramId">Telegram ID</label>
-          <input type="text" id="telegramId" placeholder="@username">
+          <input type="text" id="telegramId" placeholder="@username" required>
         </div>
         <div class="form-group">
           <label for="email">Email Address</label>
-          <input type="email" id="email" placeholder="your@email.com">
+          <input type="email" id="email" placeholder="your@email.com" required>
         </div>
         <div class="form-group">
           <label for="message">Your Message</label>
-          <textarea id="message" placeholder="Have a project, question, or partnership in mind? Let us know.."></textarea>
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px; text-align: left;">
-            💬 For quicker support or technical issues, join our 
-            <a href="https://t.co/FDpS2bxL5j" target="_blank" rel="noopener noreferrer" style="color: var(--primary); text-decoration: underline;">Discord.</a>
+          <textarea id="message" placeholder="Have a project, question, or partnership in mind?" required></textarea>
+          <p class="help-text">
+            💬 For quicker support, join our
+            <a href="https://t.co/FDpS2bxL5j" target="_blank" rel="noopener noreferrer">Discord</a>.
           </p>
         </div>
-        <button class="submit-btn" id="submit">Submit</button>
+        <button class="submit-btn" id="submit" type="submit">Submit</button>
+      </form>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+      <p>
+        Powered by
+        <a href="https://www.tokendock.io/" target="_blank" rel="noopener noreferrer" class="telegram-highlight">
+          Token Dock
+          <i class="fa-solid fa-arrow-up-right-from-square small-icon"></i>
+        </a>
+      </p>
+      <span class="version">Version 1.2.3</span>
+      <div class="social-links">
+        <a href="https://x.com/HabitatProtocol" class="social-link" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-x-twitter"></i>
+        </a>
+        <a href="https://www.linkedin.com/company/habitat-foundation" class="social-link" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+        <a href="https://t.co/FDpS2bxL5j" class="social-link" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-discord"></i>
+        </a>
+        <a href="https://t.co/SS67LbLmLk" class="social-link" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-telegram"></i>
+        </a>
+        <a href="https://www.habitatprotocol.com/" class="social-link" target="_blank" rel="noopener noreferrer">
+          <i class="fa-solid fa-desktop"></i>
+        </a>
+        <a href="https://medium.com/@habitatfoundation" class="social-link" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-medium"></i>
+        </a>
       </div>
-      
-      <div class="footer">
-        <p style="color: var(--text-muted); font-size: 0.9rem;">
-          Powered by 
-          <a href="https://www.tokendock.io/" target="_blank" rel="noopener noreferrer" class="telegram-highlight">
-            Token Dock
-            <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem;opacity:0.8;"></i>
-          </a>
-        </p>
-        <span class="version">Version 1.2.3</span>
-        <div class="social-links">
-          <a href="https://x.com/HabitatProtocol" class="social-link" target="_blank" rel="noopener noreferrer">
-            <i class="fa-brands fa-x-twitter"></i>
-          </a>
-          <a href="https://www.linkedin.com/company/habitat-foundation" class="social-link" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-          <a href="https://t.co/FDpS2bxL5j" class="social-link" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-discord"></i>
-          </a>
-          <a href="https://t.co/SS67LbLmLk" class="social-link" target="_blank" rel="noopener noreferrer">
-            <i class="fab fa-telegram"></i>
-          </a>
-          <a href="https://www.habitatprotocol.com/" class="social-link" target="_blank" rel="noopener noreferrer">
-            <i class="fa-solid fa-desktop"></i>
-          </a>
-          <a href="https://medium.com/@habitatfoundation" class="social-link" target="_blank" rel="noopener noreferrer">
-            <i class="fa-brands fa-medium"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="notification" id="notification">
-      <p>Your Form has been Submitted! Somebody from the Habitat Protocol team will be in touch shortly.</p>
-    </div>
-  
-    <script>
-      // Load Habitat Stats
-      async function loadHabitatStats() {
-        const tokenAddress = "2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE";
-        const priceEl = document.getElementById('price');
-        const mcapEl = document.getElementById('mcap');
-        const volEl = document.getElementById('volume');
-        const changeEl = document.getElementById('change');
-        const holderEl = document.getElementById('holderCount');
-        const lastUpdatedEl = document.getElementById('lastUpdated');
-        const solPriceEl = document.getElementById('solPrice');
+    </footer>
+  </main>
 
-        function abbreviateNumber(num) {
-          if (num >= 1e9) return (num / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B';
-          if (num >= 1e6) return (num / 1e6).toFixed(2).replace(/\.?0+$/, '') + 'M';
-          if (num >= 1e3) return (num / 1e3).toFixed(2).replace(/\.?0+$/, '') + 'K';
-          return num.toLocaleString();
-        }
+  <!-- Notification -->
+  <div class="notification" id="notification" role="alert" aria-live="polite">
+    <p>Your form has been submitted! Somebody from the Habitat Protocol team will be in touch shortly.</p>
+  </div>
 
-        try {
-          const res = await fetch(`https://dock-habitat.vercel.app/api/birdeye?token=${tokenAddress}`);
-          
-          // Fetch Solana price
-          try {
-            const solRes = await fetch(`https://dock-habitat.vercel.app/api/birdeye?token=sol`);
-            if (solRes.ok) {
-              const solJson = await solRes.json();
-              const sol = solJson.data;
-              solPriceEl.textContent = `$${Number(sol.price).toFixed(2)}`;
-            }
-          } catch (e) {
-            solPriceEl.textContent = 'Error';
-          }
-
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          const json = await res.json();
-          if (!json.success || !json.data) throw new Error('Bad payload');
-
-          const d = json.data;
-
-          // Format price
-          function formatPrice(p) {
-            const price = Number(p);
-            if (price >= 1) return `$${price.toFixed(2).replace(/\.?0+$/, '')}`;
-            if (price >= 0.01) return `$${price.toFixed(3).replace(/\.?0+$/, '')}`;
-            return `$${price.toFixed(4).replace(/\.?0+$/, '')}`;
-          }
-
-          // Compute 24h change
-          const ch24 = Number(d.priceChange24hPercent || 0);
-          const arrow = ch24 >= 0 ? "▲" : "▼";
-          const arrowColor = ch24 >= 0 ? "#0EB466" : "#ff4d4d";
-
-          // Price + arrow
-          priceEl.innerHTML = `${formatPrice(d.price)} <span style="color:${arrowColor}; font-size:0.8rem; margin-left:4px;">${arrow}</span>`;
-
-          // 24h % Change
-          changeEl.textContent = `${ch24.toFixed(2)}%`;
-          changeEl.style.color = arrowColor;
-
-          // Draw sparkline
-          const canvas = document.getElementById("priceTrend");
-          const ctx = canvas.getContext("2d");
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-          const points = [
-            d.history24hPrice, d.history12hPrice, d.history8hPrice,
-            d.history4hPrice, d.history2hPrice, d.history1hPrice, d.price
-          ].filter(p => p && !isNaN(p));
-
-          if (points.length > 1) {
-            const min = Math.min(...points);
-            const max = Math.max(...points);
-            const scaleX = canvas.width / (points.length - 1);
-            const scaleY = canvas.height / (max - min);
-
-            ctx.beginPath();
-            ctx.lineWidth = 5;
-
-            const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-            if (d.priceChange24hPercent >= 0) {
-              gradient.addColorStop(0, "rgba(14,180,102,0)");
-              gradient.addColorStop(0.5, "rgba(14,180,102,1)");
-              gradient.addColorStop(1, "rgba(14,180,102,0)");
-            } else {
-              gradient.addColorStop(0, "rgba(255,77,77,0)");
-              gradient.addColorStop(0.5, "rgba(255,77,77,1)");
-              gradient.addColorStop(1, "rgba(255,77,77,0)");
-            }
-
-            ctx.strokeStyle = gradient;
-            ctx.shadowBlur = 8;
-            ctx.shadowColor = d.priceChange24hPercent >= 0 ? "rgba(14,180,102,0.6)" : "rgba(255,77,77,0.6)";
-
-            points.forEach((p, i) => {
-              const x = i * scaleX;
-              const y = canvas.height - (p - min) * scaleY;
-              i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-            });
-
-            ctx.stroke();
-          }
-
-          mcapEl.textContent = `$${abbreviateNumber(d.marketCap)}`;
-          volEl.textContent = `$${abbreviateNumber(d.v24hUSD)}`;
-          holderEl.textContent = (d.holder || 0).toLocaleString();
-          lastUpdatedEl.textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
-
-        } catch (err) {
-          priceEl.textContent = mcapEl.textContent = volEl.textContent = holderEl.textContent = "Error";
-          console.error(err);
-        }
-      }
-
-      // Copy Contract Address
+  <script>
+    // === Improved JS ===
+    document.addEventListener('DOMContentLoaded', () => {
+      const body = document.body;
+      const articlesBtn = document.getElementById('articlesBtn');
+      const articlesSection = document.getElementById('articlesSection');
+      const contactBtn = document.getElementById('contactBtn');
+      const contactSection = document.getElementById('contactSection');
       const copyBtn = document.getElementById('copyCA');
-      copyBtn.addEventListener('click', async () => {
-        const contractAddress = "2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE";
-        const notification = document.getElementById('notification');
-        try {
-          await navigator.clipboard.writeText(contractAddress);
-          copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> CA Copied';
-          copyBtn.style.color = '#0EB466';
-          setTimeout(() => {
-            copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i>';
-            copyBtn.style.color = 'var(--primary)';
-          }, 1800);
-        } catch (err) {
-          console.error('Clipboard failed:', err);
-          notification.querySelector('p').innerHTML = "⚠️ Failed to copy address.";
-          notification.classList.add('show');
-          setTimeout(() => notification.classList.remove('show'), 1800);
+      const refreshBtn = document.getElementById('refreshStats');
+      const telegramInput = document.getElementById('telegramId');
+      const form = document.getElementById('contactForm');
+      const notification = document.getElementById('notification');
+
+      const toggleSection = (btn, section, openText, closeText) => {
+        const isHidden = section.hasAttribute('hidden');
+        if (isHidden) {
+          section.removeAttribute('hidden');
+          btn.innerHTML = closeText;
+          section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+          section.setAttribute('hidden', '');
+          btn.innerHTML = openText;
+        }
+      };
+
+      // Articles Toggle
+      articlesBtn.addEventListener('click', () => {
+        toggleSection(
+          articlesBtn,
+          articlesSection,
+          '<i class="fa-solid fa-newspaper"></i> Articles',
+          '<i class="fa-solid fa-xmark"></i> Close Articles'
+        );
+      });
+
+      // Contact Toggle
+      contactBtn.addEventListener('click', () => {
+        toggleSection(
+          contactBtn,
+          contactSection,
+          '<i class="fa-solid fa-envelope"></i> Contact Us',
+          '<i class="fa-solid fa-xmark"></i> Close Form'
+        );
+      });
+
+      // Auto '@' for Telegram
+      telegramInput.addEventListener('input', () => {
+        if (!telegramInput.value.startsWith('@')) {
+          telegramInput.value = '@' + telegramInput.value.replace(/^@+/, '');
         }
       });
 
-      // Refresh button
-      const refreshBtn = document.getElementById('refreshStats');
+      // Copy Contract
+      copyBtn.addEventListener('click', async () => {
+        const contractAddress = "2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE";
+        try {
+          await navigator.clipboard.writeText(contractAddress);
+          copyBtn.innerHTML = '<i class="fa-solid fa-check"></i> Copied';
+          setTimeout(() => {
+            copyBtn.innerHTML = '<i class="fa-regular fa-copy"></i>';
+          }, 1500);
+        } catch {
+          showNotification("⚠️ Failed to copy address.");
+        }
+      });
+
+      // Refresh Stats
       refreshBtn.addEventListener('click', async () => {
         refreshBtn.innerHTML = `<i class="fas fa-circle-notch fa-spin"></i> Refreshing...`;
         await loadHabitatStats();
@@ -1093,74 +1049,33 @@
         }, 500);
       });
 
-      // Toggle Articles Section
-      document.getElementById("articlesBtn").addEventListener("click", () => {
-        const section = document.getElementById("articlesSection");
-        const btn = document.getElementById("articlesBtn");
-        if (section.style.display === "block") {
-          section.style.display = "none";
-          btn.innerHTML = '<i class="fa-solid fa-newspaper"></i> Articles';
-        } else {
-          section.style.display = "block";
-          btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Close Articles';
-          section.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      });
+      // Show notification helper
+      function showNotification(msg, duration = 2500) {
+        notification.querySelector('p').innerHTML = msg;
+        notification.classList.add('show');
+        setTimeout(() => notification.classList.remove('show'), duration);
+      }
 
-      // Toggle Contact Form
-      document.getElementById("contactBtn").addEventListener("click", () => {
-        const section = document.getElementById("contactSection");
-        const btn = document.getElementById("contactBtn");
-        if (section.style.display === "block") {
-          section.style.display = "none";
-          btn.innerHTML = '<i class="fa-solid fa-envelope"></i> Contact Us';
-        } else {
-          section.style.display = "block";
-          btn.innerHTML = '<i class="fa-solid fa-xmark"></i> Close Form';
-          section.scrollIntoView({ behavior: "smooth", block: "start" });
-        }
-      });
+      // Handle Form Submit
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(form).entries());
+        const { name, topic, telegramId, email, message } = data;
 
-      // Auto prefix '@' in Telegram field
-      const telegramInput = document.getElementById("telegramId");
-      telegramInput.addEventListener("input", () => {
-        if (!telegramInput.value.startsWith("@")) {
-          telegramInput.value = "@" + telegramInput.value.replace(/^@+/, "");
-        }
-      });
-
-      // Submit Form
-      document.getElementById("submit").addEventListener("click", async () => {
-        const name = document.getElementById("name").value.trim();
-        const topic = document.getElementById("topic").value.trim();
-        const telegramId = document.getElementById("telegramId").value.trim();
-        const email = document.getElementById("email").value.trim();
-        const message = document.getElementById("message").value.trim();
-        const notification = document.getElementById('notification');
-
-        // Validation
         if (!name || !topic || !telegramId || !email || !message) {
-          notification.querySelector('p').innerHTML = "⚠️ Please complete all fields before submitting.";
-          notification.classList.add('show');
-          setTimeout(() => notification.classList.remove('show'), 2500);
+          showNotification("⚠️ Please complete all fields before submitting.");
           return;
         }
 
-        if (!telegramId.startsWith("@") || telegramId.length < 4) {
-          notification.querySelector('p').innerHTML = "⚠️ Please enter a valid Telegram username (e.g., @HabitatUser).";
-          notification.classList.add('show');
-          setTimeout(() => notification.classList.remove('show'), 2500);
+        if (!telegramId.startsWith('@')) {
+          showNotification("⚠️ Please enter a valid Telegram username (e.g. @HabitatUser).");
           return;
         }
 
-        if (!email.includes("@") || !email.includes(".")) {
-          notification.querySelector('p').innerHTML = "⚠️ Please enter a valid email address.";
-          notification.classList.add('show');
-          setTimeout(() => notification.classList.remove('show'), 2500);
+        if (!/\S+@\S+\.\S+/.test(email)) {
+          showNotification("⚠️ Please enter a valid email address.");
           return;
         }
-
-        const data = { name, topic, telegramId, email, message };
 
         try {
           await fetch("https://flowxo.com/hooks/a/x2gm2j5y", {
@@ -1168,35 +1083,33 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data)
           });
-          notification.querySelector('p').innerHTML = "✅ Your form has been submitted!<br><br>Somebody from the Habitat team will be in touch shortly.";
-          notification.classList.add('show');
-
-          // Clear form fields
-          document.getElementById("name").value = "";
-          document.getElementById("topic").value = "General";
-          document.getElementById("telegramId").value = "";
-          document.getElementById("email").value = "";
-          document.getElementById("message").value = "";
-
-          setTimeout(() => {
-            notification.classList.remove('show');
-            const section = document.getElementById("contactSection");
-            const btn = document.getElementById("contactBtn");
-            section.style.display = "none";
-            btn.innerHTML = '<i class="fa-solid fa-envelope"></i> Contact Us';
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }, 1500);
-
-        } catch (error) {
-          console.error(error);
-          notification.querySelector('p').innerHTML = "⚠️ Error sending message. Please try again later.";
-          notification.classList.add('show');
-          setTimeout(() => notification.classList.remove('show'), 2500);
+          showNotification("✅ Your form has been submitted! Someone from the Habitat team will reach out soon.");
+          form.reset();
+          setTimeout(() => contactSection.setAttribute('hidden', ''), 1500);
+        } catch {
+          showNotification("⚠️ Error sending message. Please try again later.");
         }
       });
 
-      // Initial load
+      // Stats load
       loadHabitatStats();
-    </script>
+    });
+  </script>
+
+  <style>
+    @media (prefers-reduced-motion: reduce) {
+      .video-background { display: none; }
+    }
+    .visually-hidden {
+      position: absolute;
+      clip: rect(0 0 0 0);
+      clip-path: inset(50%);
+      height: 1px;
+      width: 1px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .small-icon { font-size: 0.7rem; opacity: 0.7; }
+    .help-text a { color: var(--primary); text-decoration: underline; }
+  </style>
 </body>
-</html>
