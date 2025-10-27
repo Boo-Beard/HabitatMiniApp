@@ -1025,7 +1025,7 @@
             <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem;opacity:0.8;"></i>
           </a>
         </p>
-        <span class="version">Version 1.3.3</span>
+        <span class="version">Version 1.3.4</span>
         <div class="social-links">
           <a href="https://x.com/HabitatProtocol" class="social-link" target="_blank" rel="noopener noreferrer">
             <i class="fa-brands fa-x-twitter"></i>
@@ -1077,11 +1077,11 @@ const supplyEl = document.getElementById('supply');
         }
 
         try {
-          const res = await fetch(`https://dock-habitat.vercel.app/api/birdeye?token=${tokenAddress}`);
-          
+          const res = await fetch(`/api/birdeye?token=${tokenAddress}`)
+;
           // Fetch Solana price
           try {
-            const solRes = await fetch(`https://dock-habitat.vercel.app/api/birdeye?token=sol`);
+const solRes = await fetch(`/api/birdeye?token=sol`);
             if (solRes.ok) {
               const solJson = await solRes.json();
               const sol = solJson.data;
@@ -1233,7 +1233,7 @@ document.getElementById("toggleChart").addEventListener("click",()=>{
 
 /* === Load Advanced Metrics === */
 async function loadAdvancedMetrics(){
-  const res=await fetch(`https://dock-habitat.vercel.app/api/birdeye?token=${tokenAddress}`);
+const res = await fetch(`/api/birdeye?token=${tokenAddress}`);
   const j=await res.json(); const t=j.data;
   document.getElementById("buyCount").textContent=t.buy24h;
   document.getElementById("sellCount").textContent=t.sell24h;
