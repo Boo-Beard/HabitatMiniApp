@@ -7,26 +7,57 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end();
 
   // ✅ NEW: extract extra query params for chart support
-  const { token, path, chain = 'solana', address, type = '1h', currency = 'usd' } = req.query;
+  const {
+    token,
+    path,
+    chain = 'solana',
+    address,
+    type = '1h',
+    currency = 'usd',
+  } = req.query;
 
   try {
     let url;
 
     // ✅ NEW: handle chart requests (OHLCV)
-if (path && path.includes('/ohlcv')) {
-  const { time_from, time_to, ui_amount_mode = "raw" } = req.query;
-  const params = new URLSearchParams({
-    chain,
-    address,
-    type,
-    currency,
-    ui_amount_mode,
-  });
-  if (time_from) params.set("time_from", time_from);
-  if (time_to) params.set("time_to", time_to);
+    if (path && path.includes('/ohlcv')) {
+      const { time_from, time_to, ui_amount_mode = 'raw' } = req.query;
 
-  url = `https://public-api.birdeye.so${path}?${params.toString()}`;
-}
+      // normalize interval same way as dock-address.js
+      const normalizeInterval = (intv) => {
+        const map = {
+          '1m': '1m',
+          '5m': '5m',
+          '15m': '15m',
+          '30m': '30m',
+          '1h': '1H',
+          '4h': '4H',
+          '1d': '1D',
+          '1s': '1s',
+          '15s': '15s',
+          '30s': '30s',
+        };
+        return map[intv] || intv;
+      };
+
+      const finalType = normalizeInterval(type);
+
+      // ✅ auto-fill time range if missing
+      const now = Math.floor(Date.now() / 1000);
+      const defaultFrom = now - 48 * 3600; // 48h lookback if none provided
+
+      const params = new URLSearchParams({
+        chain,
+        address,
+        type: finalType,
+        currency,
+        ui_amount_mode,
+        time_from: time_from || defaultFrom,
+        time_to: time_to || now,
+      });
+
+      url = `https://public-api.birdeye.so${path}?${params.toString()}`;
+    }
 
     // 🟢 EXISTING: default token overview logic (kept exactly as-is)
     else {
@@ -42,7 +73,7 @@ if (path && path.includes('/ohlcv')) {
     const birdeyeRes = await fetch(url, {
       headers: {
         Accept: 'application/json',
-        'X-Chain': 'solana',
+        'X-Chain': chain,
         'X-API-KEY': process.env.BIRDEYE_KEY,
       },
     });
@@ -50,8 +81,10 @@ if (path && path.includes('/ohlcv')) {
     const data = await birdeyeRes.json();
     return res.status(200).json(data);
   } catch (err) {
-    return res
-      .status(500)
-      .json({ success: false, message: 'Birdeye fetch failed', error: err.message });
+    return res.status(500).json({
+      success: false,
+      message: 'Birdeye fetch failed',
+      error: err.message,
+    });
   }
 }
