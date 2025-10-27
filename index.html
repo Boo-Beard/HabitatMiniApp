@@ -1052,7 +1052,9 @@
     <div class="notification" id="notification">
       <p>Your Form has been Submitted! Somebody from the Habitat Protocol team will be in touch shortly.</p>
     </div>
-  
+      <!-- Lightweight Charts library -->
+<script src="https://cdn.jsdelivr.net/npm/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+
     <script>
       // Load Habitat Stats
       async function loadHabitatStats() {
@@ -1250,8 +1252,6 @@ async function loadAdvancedMetrics(){
   const imbalance=((t.buy24h-t.sell24h)/(t.buy24h+t.sell24h))*100;
   document.getElementById("buySellImbalance").textContent=isFinite(imbalance)?imbalance.toFixed(1)+'%':'—';
 }
-<!-- Load correct version BEFORE your script -->
-src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"
 
 /* === Load Lightweight Chart === */
 async function loadChart(interval){
@@ -1372,6 +1372,8 @@ async function loadChart(interval){
 
       // Initial load
       loadHabitatStats();
+      
     </script>
+
 </body>
 </html>
