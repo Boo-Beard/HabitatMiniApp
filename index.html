@@ -748,73 +748,52 @@
       max-width: 450px;
     }
   }
-.chart-toggle-btn,
-.metrics-toggle-btn {
+  .chart-toggle-btn, .metrics-toggle-btn {
   width: 100%;
-  background: rgba(42,171,238,0.15);
-  border: 1px solid rgba(42,171,238,0.3);
+  background: rgba(14,180,102,0.1);
+  border: 1px solid rgba(14,180,102,0.3);
   color: var(--primary);
-  padding: 10px 0;
+  padding: 10px;
   border-radius: 8px;
+  font-size: 0.85rem;
   cursor: pointer;
-  font-weight: 600;
-  transition: all 0.25s ease;
-  margin-bottom: 12px;
-  will-change: transform, background;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
 }
-.chart-toggle-btn:hover,
-.metrics-toggle-btn:hover {
-  background: rgba(42,171,238,0.25);
-  transform: translateY(-2px);
+.chart-toggle-btn:hover, .metrics-toggle-btn:hover {
+  background: rgba(14,180,102,0.2);
+  border-color: var(--primary);
+  transform: translateY(-1px);
 }
 
-.chart-panel {
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: all 0.4s ease;
-  margin-top: 0;
-}
-.chart-panel.open {
-  max-height: 900px;
-  opacity: 1;
-  margin-top: 16px;
-  overflow: visible;
-}
-
-.chart-wrap {
-  background: transparent;
+.chart-panel, .metrics-panel {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(14,180,102,0.2);
   border-radius: 10px;
   padding: 10px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(10px);
 }
-.chart-toolbar {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
-}
+
 .chart-toolbar .btn {
-  background: rgba(42,171,238,0.12);
-  border: 1px solid rgba(42,171,238,0.3);
+  background: transparent;
   color: var(--text);
-  font-size: 0.75rem;
-  padding: 6px 10px;
+  border: 1px solid rgba(14,180,102,0.3);
+  padding: 5px 8px;
+  margin-right: 6px;
   border-radius: 6px;
+  font-size: 0.75rem;
   cursor: pointer;
-  transition: .2s ease;
 }
-.chart-toolbar .btn:hover { background: rgba(42,171,238,0.22); }
 .chart-toolbar .btn.active {
   background: var(--primary);
-  color: #0E1621;
-  border-color: var(--primary);
+  color: var(--bg-dark);
 }
-#candlesContainer {
-  width: 100%;
-  height: 320px;
-}
-@media (min-width: 500px) {
-  #candlesContainer { height: 380px; }
+
+.bar-container {
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 </style>
