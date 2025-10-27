@@ -13,9 +13,21 @@ export default async function handler(req, res) {
     let url;
 
     // ✅ NEW: handle chart requests (OHLCV)
-    if (path && path.includes('/ohlcv')) {
-      url = `https://public-api.birdeye.so${path}?chain=${chain}&address=${address}&type=${type}&currency=${currency}`;
-    }
+if (path && path.includes('/ohlcv')) {
+  const { time_from, time_to, ui_amount_mode = "raw" } = req.query;
+  const params = new URLSearchParams({
+    chain,
+    address,
+    type,
+    currency,
+    ui_amount_mode,
+  });
+  if (time_from) params.set("time_from", time_from);
+  if (time_to) params.set("time_to", time_to);
+
+  url = `https://public-api.birdeye.so${path}?${params.toString()}`;
+}
+
     // 🟢 EXISTING: default token overview logic (kept exactly as-is)
     else {
       const tokenAddress =
