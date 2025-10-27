@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Habitat Dock</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+<script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
+
 <style>
   :root {
     --primary: #0EB466;
@@ -746,6 +748,54 @@
       max-width: 450px;
     }
   }
+  .chart-toggle-btn, .metrics-toggle-btn {
+  width: 100%;
+  background: rgba(14,180,102,0.1);
+  border: 1px solid rgba(14,180,102,0.3);
+  color: var(--primary);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: all 0.3s ease;
+}
+.chart-toggle-btn:hover, .metrics-toggle-btn:hover {
+  background: rgba(14,180,102,0.2);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.chart-panel, .metrics-panel {
+  background: rgba(0,0,0,0.2);
+  border: 1px solid rgba(14,180,102,0.2);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(10px);
+}
+
+.chart-toolbar .btn {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(14,180,102,0.3);
+  padding: 5px 8px;
+  margin-right: 6px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+.chart-toolbar .btn.active {
+  background: var(--primary);
+  color: var(--bg-dark);
+}
+
+.bar-container {
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
 </style>
 </head>
 <body>
@@ -802,6 +852,15 @@
             <div class="stat-label">Total Holders</div>
           </div>
           <div class="stat">
+  <div class="stat-value" id="liquidity">Loading...</div>
+  <div class="stat-label">Liquidity</div>
+</div>
+
+<div class="stat">
+  <div class="stat-value" id="supply">Loading...</div>
+  <div class="stat-label">Total Supply</div>
+</div>
+          <div class="stat">
             <div class="stat-value">
               <a href="https://solscan.io/token/2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE"
                  target="_blank" rel="noopener noreferrer"
@@ -820,6 +879,52 @@
           </button>
         </div>
       </div>
+<!-- === Chart Section === -->
+<button class="chart-toggle-btn" id="toggleChart">
+  <i class="fa-solid fa-chart-area"></i> Chart
+</button>
+<div class="chart-panel" id="chartPanel" style="display:none;">
+  <div class="chart-wrap">
+    <div class="chart-toolbar" id="chartToolbar">
+      <button class="btn" data-int="1m">1m</button>
+      <button class="btn" data-int="5m">5m</button>
+      <button class="btn" data-int="15m">15m</button>
+      <button class="btn" data-int="1h">1h</button>
+      <button class="btn" data-int="4h">4h</button>
+      <button class="btn" data-int="1d">1d</button>
+    </div>
+    <div id="candlesContainer" style="width:100%;height:280px;"></div>
+  </div>
+</div>
+
+<!-- === Advanced Metrics Section === -->
+<button class="metrics-toggle-btn" id="toggleMetrics">
+  <i class="fa-solid fa-chart-simple"></i> Advanced Metrics
+</button>
+<div class="metrics-panel" id="metricsPanel" style="display:none;">
+  <div class="metrics-bars">
+    <div class="metric-labels">
+      <span>Buys (<span id="buyCount">—</span>)</span>
+      <span>Sells (<span id="sellCount">—</span>)</span>
+    </div>
+    <div class="bar-container" style="height:6px;display:flex;width:100%;">
+      <div class="bar bar-buy" style="background:#0EB466;height:100%;width:0%;transition:width 0.8s ease;"></div>
+      <div class="bar bar-sell" style="background:#E63946;height:100%;width:0%;transition:width 0.8s ease;"></div>
+    </div>
+  </div>
+
+  <div class="stats-grid" id="metricsGrid">
+    <div class="stat"><div class="stat-value" id="uniqueWallets">—</div><div class="stat-label">Active Wallets (24h)</div></div>
+    <div class="stat"><div class="stat-value" id="walletMomentum">—</div><div class="stat-label">Wallet Momentum</div></div>
+    <div class="stat"><div class="stat-value" id="avgLiquidity">—</div><div class="stat-label">Avg Liquidity/Market</div></div>
+    <div class="stat"><div class="stat-value" id="holderTraderRatio">—</div><div class="stat-label">Holder:Trader Ratio</div></div>
+    <div class="stat"><div class="stat-value" id="engagementIndex">—</div><div class="stat-label">Engagement Index</div></div>
+    <div class="stat"><div class="stat-value" id="priceMomentum">—</div><div class="stat-label">Price Momentum Score</div></div>
+    <div class="stat"><div class="stat-value" id="avgTradeSize">—</div><div class="stat-label">Avg Trade Size (24h)</div></div>
+    <div class="stat"><div class="stat-value" id="turnoverRatio">—</div><div class="stat-label">Turnover Ratio (24h)</div></div>
+    <div class="stat"><div class="stat-value" id="buySellImbalance">—</div><div class="stat-label">Buy/Sell Imbalance (24h)</div></div>
+  </div>
+</div>
 
       <a href="https://raydium.io/swap/?inputMint=2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE" class="trade-btn" target="_blank" rel="noopener noreferrer">
         <i class="fas fa-exchange-alt"></i> Buy Habitat
@@ -831,7 +936,7 @@
             <i class="fas fa-book"></i> Docs
           </a>
           <a href="https://dexscreener.com/solana/2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE" class="action-btn" target="_blank">
-            <i class="fa-solid fa-chart-area"></i> Chart
+            <i class="fa-solid fa-chart-area"></i> Dexscreener
           </a>
         </div>
         <div class="row center">
@@ -920,7 +1025,7 @@
             <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.7rem;opacity:0.8;"></i>
           </a>
         </p>
-        <span class="version">Version 1.2.3</span>
+        <span class="version">Version 1.3.0</span>
         <div class="social-links">
           <a href="https://x.com/HabitatProtocol" class="social-link" target="_blank" rel="noopener noreferrer">
             <i class="fa-brands fa-x-twitter"></i>
@@ -959,6 +1064,8 @@
         const holderEl = document.getElementById('holderCount');
         const lastUpdatedEl = document.getElementById('lastUpdated');
         const solPriceEl = document.getElementById('solPrice');
+        const liquidityEl = document.getElementById('liquidity');
+const supplyEl = document.getElementById('supply');
 
         function abbreviateNumber(num) {
           if (num >= 1e9) return (num / 1e9).toFixed(2).replace(/\.?0+$/, '') + 'B';
@@ -987,6 +1094,14 @@
           if (!json.success || !json.data) throw new Error('Bad payload');
 
           const d = json.data;
+// Liquidity & Supply
+liquidityEl.textContent = d.liquidity
+  ? `$${abbreviateNumber(d.liquidity)}`
+  : '—';
+
+supplyEl.textContent = d.totalSupply
+  ? d.totalSupply.toLocaleString()
+  : '—';
 
           // Format price
           function formatPrice(p) {
@@ -1092,6 +1207,64 @@
           refreshBtn.innerHTML = `<i class="fas fa-sync-alt"></i> Refresh`;
         }, 500);
       });
+/* === Chart + Metrics Integration === */
+const tokenAddress = "2Bwbeh361ywi1PpypDHabDb8VphNKCQt9ht2CRzFsYAE";
+const chain = "solana";
+const API_BASE = "/api/birdeye-explore";
+
+function formatUSD(n){if(!n||isNaN(n))return"$0";if(n>=1e6)return"$"+(n/1e6).toFixed(2)+"M";if(n>=1e3)return"$"+(n/1e3).toFixed(1)+"K";return"$"+Number(n).toFixed(2);}
+function formatPct(x){return `${x>0?'+':''}${Number(x||0).toFixed(2)}%`;}
+
+/* === Advanced Metrics Toggle === */
+document.getElementById("toggleMetrics").addEventListener("click",()=>{
+  const p=document.getElementById("metricsPanel");
+  p.style.display=p.style.display==="block"?"none":"block";
+  if(p.style.display==="block")loadAdvancedMetrics();
+});
+
+/* === Chart Toggle === */
+document.getElementById("toggleChart").addEventListener("click",()=>{
+  const p=document.getElementById("chartPanel");
+  p.style.display=p.style.display==="block"?"none":"block";
+  if(p.style.display==="block")loadChart("1h");
+});
+
+/* === Load Advanced Metrics === */
+async function loadAdvancedMetrics(){
+  const res=await fetch(`https://dock-habitat.vercel.app/api/birdeye?token=${tokenAddress}`);
+  const j=await res.json(); const t=j.data;
+  document.getElementById("buyCount").textContent=t.buy24h;
+  document.getElementById("sellCount").textContent=t.sell24h;
+  const total=(t.buy24h+t.sell24h)||1;
+  document.querySelector(".bar-buy").style.width=(t.buy24h/total*100).toFixed(1)+"%";
+  document.querySelector(".bar-sell").style.width=(t.sell24h/total*100).toFixed(1)+"%";
+  document.getElementById("uniqueWallets").textContent=t.uniqueWallet24h;
+  document.getElementById("walletMomentum").textContent=formatPct(t.uniqueWallet24hChangePercent);
+  document.getElementById("avgLiquidity").textContent=formatUSD(t.liquidity/(t.numberMarkets||1));
+  document.getElementById("holderTraderRatio").textContent=((t.holder/(t.uniqueWallet24h||1))||0).toFixed(1)+"x";
+  const priceMomentum=0.5*(t.priceChange1hPercent||0)+0.3*(t.priceChange4hPercent||0)+0.2*(t.priceChange24hPercent||0);
+  document.getElementById("priceMomentum").textContent=formatPct(priceMomentum);
+  document.getElementById("avgTradeSize").textContent=formatUSD((t.v24hUSD||0)/Math.max(1,t.trade24h||1));
+  const turnover=(t.marketCap>0&&t.v24hUSD)?(t.v24hUSD/t.marketCap):null;
+  document.getElementById("turnoverRatio").textContent=turnover?turnover.toFixed(2)+'x':'—';
+  const imbalance=((t.buy24h-t.sell24h)/(t.buy24h+t.sell24h))*100;
+  document.getElementById("buySellImbalance").textContent=isFinite(imbalance)?imbalance.toFixed(1)+'%':'—';
+}
+
+/* === Load Lightweight Chart === */
+async function loadChart(interval){
+  const c=document.getElementById("candlesContainer");
+  c.innerHTML=""; 
+  const chart=LightweightCharts.createChart(c,{width:c.clientWidth,height:280,layout:{background:{type:'solid',color:'transparent'},textColor:'#8EA1B4'},grid:{vertLines:{color:'transparent'},horzLines:{color:'transparent'}},crosshair:{mode:LightweightCharts.CrosshairMode.Normal}});
+  const candle=chart.addCandlestickSeries({upColor:'#0EB466',downColor:'#E63946',borderVisible:false,wickUpColor:'#0EB466',wickDownColor:'#E63946'});
+  const vol=chart.addHistogramSeries({priceScaleId:'',color:'rgba(142,161,180,0.35)',scaleMargins:{top:0.8,bottom:0}});
+  try{
+    const url=`/api/birdeye-explore?path=/defi/v3/ohlcv&chain=${chain}&address=${tokenAddress}&type=${interval}&currency=usd`;
+    const r=await fetch(url); const j=await r.json(); const data=j.data.items;
+    candle.setData(data.map(k=>({time:Number(k.unix_time),open:+k.o,high:+k.h,low:+k.l,close:+k.c})));
+    vol.setData(data.map(k=>({time:Number(k.unix_time),value:+k.v_usd,color:(+k.c>=+k.o)?'#0EB466':'#E63946'})));
+  }catch(e){console.warn('Chart error',e);}
+}
 
       // Toggle Articles Section
       document.getElementById("articlesBtn").addEventListener("click", () => {
