@@ -1261,7 +1261,7 @@ async function loadChart(interval){
   const candle=chart.addCandlestickSeries({upColor:'#0EB466',downColor:'#E63946',borderVisible:false,wickUpColor:'#0EB466',wickDownColor:'#E63946'});
   const vol=chart.addHistogramSeries({priceScaleId:'',color:'rgba(142,161,180,0.35)',scaleMargins:{top:0.8,bottom:0}});
   try{
-const url=`https://dock-habitat.vercel.app/api/birdeye-explore?path=/defi/v3/ohlcv&chain=${chain}&address=${tokenAddress}&type=${interval}&currency=usd`;
+const url=`/api/birdeye-explore?path=/defi/v3/ohlcv&chain=${chain}&address=${tokenAddress}&type=${interval}&currency=usd`;
     const r=await fetch(url); const j=await r.json(); const data=j.data.items;
     candle.setData(data.map(k=>({time:Number(k.unix_time),open:+k.o,high:+k.h,low:+k.l,close:+k.c})));
     vol.setData(data.map(k=>({time:Number(k.unix_time),value:+k.v_usd,color:(+k.c>=+k.o)?'#0EB466':'#E63946'})));
