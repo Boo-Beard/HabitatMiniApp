@@ -812,6 +812,70 @@
 }
 @media (min-width: 500px) { #candlesContainer { height: 380px; } }
 
+/* Metrics toggle + panel */
+.metrics-toggle-btn {
+  width: 100%;
+  background: rgba(42,171,238,0.15);
+  border: 1px solid rgba(42,171,238,0.3);
+  color: var(--primary);
+  padding: 10px 0;
+  border-radius: 8px;
+  cursor: pointer; font-weight: 600; transition: all 0.25s ease; margin-bottom: 12px;
+}
+.metrics-toggle-btn:hover { background: rgba(42,171,238,0.25); transform: translateY(-2px); }
+.metrics-panel {
+  max-height: 0; opacity: 0; overflow: hidden; transition: all 0.4s ease; margin-top: 0;
+}
+.metrics-panel.open { max-height: 800px; opacity: 1; margin-top: 16px; overflow: visible; }
+
+.metrics-bars {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.metrics-panel .stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 0;
+}
+.metrics-panel .stat {
+  background: rgba(255,255,255,0.03);
+  padding: 10px 8px;
+  border-radius: 10px;
+  text-align: center;
+  backdrop-filter: blur(5px);
+  min-height: 65px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border: 1px solid var(--border);
+}
+.metrics-panel .stats-grid { overflow: visible; position: relative; z-index: 1; }
+
+/* Keep tooltip above any bars/backgrounds */
+.stat .info-popup { z-index: 10000; }
+
+/* Buy/Sell bars */
+.metric-labels {
+  display: flex; justify-content: space-between;
+  font-size: 0.8rem; color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.bar-container {
+  position: relative; height: 12px; border-radius: 6px; overflow: hidden;
+  background: rgba(255,255,255,0.05); margin-bottom: 12px;
+}
+.bar {
+  position: absolute; top: 0; height: 100%;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.bar-buy { left: 0; background: linear-gradient(90deg, #0EB466, #17D77E); border-radius: 6px 0 0 6px; z-index: 2; transition: width 0.6s ease; }
+.bar-sell { right: 0; background: linear-gradient(90deg, #E63946, #FF4B5C); border-radius: 0 6px 6px 0; z-index: 1; transition: width 0.6s ease; }
+.bar-buy, .bar-sell { width: 0%; }
+
 
 </style>
 </head>
