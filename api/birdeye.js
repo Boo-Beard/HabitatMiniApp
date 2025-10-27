@@ -1,28 +1,22 @@
 // /api/birdeye.js
 export default async function handler(req, res) {
+  // --- Handle CORS for TokenDock ---
   res.setHeader('Access-Control-Allow-Origin', 'https://www.tokendock.io');
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const { token, path, chain = 'solana', address, type, currency } = req.query;
+  const { token } = req.query;
+
+  // default to SOL if none provided or if token=sol
+  const tokenAddress =
+    !token || token.toLowerCase() === 'sol'
+      ? 'So11111111111111111111111111111111111111112'
+      : token;
+
+  const url = `https://public-api.birdeye.so/defi/token_overview?address=${tokenAddress}&ui_amount_mode=scaled`;
 
   try {
-    let url;
-
-    // 🟢 1. Handle OHLCV chart data
-    if (path && path.includes('/ohlcv')) {
-      url = `https://public-api.birdeye.so${path}?chain=${chain}&address=${address}&type=${type}&currency=${currency}`;
-    }
-    // 🟢 2. Default: Token overview
-    else {
-      const tokenAddress =
-        !token || token.toLowerCase() === 'sol'
-          ? 'So11111111111111111111111111111111111111112'
-          : token;
-      url = `https://public-api.birdeye.so/defi/token_overview?address=${tokenAddress}&ui_amount_mode=scaled`;
-    }
-
     const birdeyeRes = await fetch(url, {
       headers: {
         Accept: 'application/json',
