@@ -820,7 +820,6 @@ ease;
 position: sticky;
     top: 0;
     z-index: 1;
-    text-align: left;
     background: var(--bg-card-light); 
     color: var(--text-muted);
     font-weight: 700;
@@ -881,8 +880,9 @@ ease;
   vertical-align: middle;
 }
 .trades-table td:nth-child(1) {
-  color: var(--text-muted);
+  color: var(--text);
   white-space: nowrap;
+  font-weight: 700;
 }
 .trades-table td:nth-child(2),
 .trades-table td:nth-child(3),

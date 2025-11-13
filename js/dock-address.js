@@ -746,11 +746,11 @@ function renderDock(t, detectedChain) {
             <table class="trades-table" aria-label="Recent trades">
               <thead>
                 <tr>
-                  <th>Time</th>
-                  <th>USD</th>
+                  <th>Price</th>
                   <th id="thTokenA">Habitat</th>
                   <th>SOL</th>
-                  <th>Price</th>
+                  <th>USD</th>
+                  <th>Date/Time</th>
                 </tr>
               </thead>
               <tbody id="tradesBody">
@@ -1209,11 +1209,11 @@ async function loadAndRenderTrades() {
       const solscan = txHash ? `https://solscan.io/tx/${txHash}` : '';
       const txIcon = solscan ? `<a href=\"${solscan}\" target=\"_blank\" rel=\"noopener\" class=\"tx-icon\" title=\"Open in Solscan\"><i class=\"fa-solid fa-up-right-from-square\"></i></a>` : '';
       return `<tr class=\"trade-${isBuy ? 'buy' : 'sell'}\">\
-        <td data-th=\"Time\">${txIcon} <span class=\"tx-time\" title=\"${dateText}\">${rel}</span></td>\
-        <td data-th=\"USD\">${formatUSD(usd)}</td>\
+        <td data-th=\"Price\">${isFinite(tokenPrice) && tokenPrice > 0 ? tokenPrice.toFixed(3) : '—'}</td>\
         <td data-th=\"Habitat\">${formatNum(habitatAmt)}</td>\
         <td data-th=\"SOL\">${formatNum(solAmt, 2)}</td>\
-        <td data-th=\"Price\">${isFinite(tokenPrice) && tokenPrice > 0 ? tokenPrice.toFixed(3) : '—'}</td>\
+        <td data-th=\"USD\">${formatUSD(usd)}</td>\
+        <td data-th=\"Date/Time\"><span class=\"tx-time\" title=\"${dateText}\">${rel}</span> ${txIcon}</td>\
       </tr>`;
     });
     tbody.innerHTML = rows.join('') || '<tr><td colspan="5" class="loading">No trades</td></tr>';
