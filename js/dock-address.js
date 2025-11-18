@@ -1592,6 +1592,10 @@ if (buySellImbalancePct != null && isFinite(buySellImbalancePct)) {
           </div>
         </div>
         <div class="articles-list">
+          <a href="https://medium.com/@habitatfoundation/from-renewable-power-to-scalable-compute-the-habitat-business-model-f523b09c1668" target="_blank" rel="noopener noreferrer" class="article-link">
+           <i class="fa-solid fa-square-rss"></i>
+            <span>From Renewable Power to Scalable Compute: The Habitat Business Model</span>
+          </a>
           <a href="https://www.bloombergtv.bg/a/89-chista-energiya/151915-balgariya-mozhe-da-stane-vodesht-ai-hab-s-ultramoshtna-infrastruktura" target="_blank" rel="noopener noreferrer" class="article-link">
            <i class="fa-solid fa-square-rss"></i>
             <span>Bulgaria can become a leading AI hub with ultra-powerful infrastructure</span>
